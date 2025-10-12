@@ -4,7 +4,7 @@ A **library management system** built using **Java** as part of the EECS 3311 So
 This project demonstrates Agile software development practices, including sprint planning, Git flow branching, and collaborative version control.
 
 
-## ✊ Motivation
+## Motivation
 **Libraq** is a modern web-based library management system designed to simplify how users borrow and manage books.
 Many existing library systems are outdated; they require in-person visits to check availability, make reservations, or manage loans, which is inconvenient for both library users and staff.
 Our project aims to solve this by creating an accessible, efficient, and user-friendly platform where users can:
@@ -15,25 +15,25 @@ Our project aims to solve this by creating an accessible, efficient, and user-fr
 
 
 Libraq exists to make library services more convenient, automated, and digitally connected, improving the experience for people who want faster access to books and librarians who need better tools to manage it.
-## ⚙️ Installation and Setup
+## Installation and Setup
 
-### 🧰 Prerequisites
+### Prerequisites
 Make sure you have the following installed:
 - Java 21
 - Eclipse IDE
 - Maven 3.x
-- **Git** (for version control)  
+- Git
 
 Installation
 Requirements
 
-### 🪜 Steps to Build and Run
+### Steps to Build and Run
 
 1. **Clone the repository**
    ```bash
    git clone https://github.com/EECS3311F25/project-libraq.git
    cd project-libraq/libraq
-   ```bash
+   ```
 2. **Import into Eclipse**
    - Open Eclipse → File → Import → Maven → Existing Maven Projects
    - Browse to the libraq folder (where pom.xml is)
@@ -43,7 +43,7 @@ Requirements
 4. **Access in browser**
    - http://localhost:8080/books[http://localhost:8080/books]
 
-## 🧩 Architecture Overview
+## Architecture Overview
 Libraq follows the MVC (Model–View–Controller) pattern:
 
  - Model: Book entity, mapped with JPA to an H2 database
@@ -52,11 +52,11 @@ Libraq follows the MVC (Model–View–Controller) pattern:
 
  - Controller: Handles HTTP requests and connects model <-> view
 
-## ⛓  Contribution Guidelines
+## Contribution Guidelines
 
 We follow the Git Flow branching model to organize development and maintain a clean project history
 
-### 🌴  Branching Strategy
+### Branching Strategy
 | Branch Type |	Purpose |
 |-------------|-------- |
 | main| Contains stable, production-ready code (used for final sprint releases) |
@@ -65,7 +65,7 @@ We follow the Git Flow branching model to organize development and maintain a cl
 | feature/<feature-name>	| Branches created from within the current sprint branch to develop individual features or fixes |
 
 
-## 🧠 Authors
+## Authors
 - Taisia Zhizhina	
 - Akhanali Amangeldi
 - Timothy Tolstinev
@@ -73,3 +73,4 @@ We follow the Git Flow branching model to organize development and maintain a cl
 
 EECS 3311 - Software Design, York University
 Fall 2025
+¯⁠\_(⁠ツ⁠)⁠_⁠/⁠¯
