@@ -5,16 +5,17 @@ This project demonstrates Agile software development practices, including sprint
 
 
 ## Motivation
-**Libraq** is a modern web-based library management system designed to simplify how users borrow and manage books.
-Many existing library systems are outdated; they require in-person visits to check availability, make reservations, or manage loans, which is inconvenient for both library users and staff.
-Our project aims to solve this by creating an accessible, efficient, and user-friendly platform where users can:
+**Libraq** is a modern web-based library management system designed for small community and school libraries that lack the advanced digital tools found in larger systems.
+Many existing library systems and commercial companies offer physical and online lending, and personalized recommendations, however they are resource-heavy and not as flexible.
+Our project aims to solve this by creating an accessible, efficient, and intuitive platform where users can:
 
  - Search, reserve, and check out books online
  - View due dates and current reservations
  - For librarians: easily add, update, or remove books from the collection
 
 
-Libraq exists to make library services more convenient, automated, and digitally connected, improving the experience for people who want faster access to books and librarians who need better tools to manage it.
+The project will make library management more efficient and user-friendly, providing libraries with digital functionality similar to large public systems - but with greater simplicity and flexibility.
+
 ## Installation and Setup
 
 ### Prerequisites
