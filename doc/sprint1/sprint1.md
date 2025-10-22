@@ -21,7 +21,8 @@ As John I would like to be able to search for books by any of the books attribut
 - Log in feature: Ali  
 - Search for books feature: Taisia   
 - Create sprint 1 Trello board: Timothy  
-  - Update product backlog with points0  
+  - Update product backlog with points and correct order
+  - Put in sprint 1 features into Trello with subtasks 
 - CRC cards: Taisia  
 - Software architecture diagram: Ali, Parnia  
 - Documentation of features: everyone does the documentation for the feature they work on  
