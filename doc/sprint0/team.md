@@ -5,4 +5,4 @@
 | Timothy Tolstinev | B | 219745223 | timdtoll@my.yorku.ca | 6476671285 | faughst |
 | Parnia Esfandiari | B | 218767756 | parnia01@my.yorku.ca | 4377885759 | parnia7989 |
 
-**Discord Chat/Server Invite :** [https://discord.gg/MZGKbSSc]
+**Discord Chat/Server Invite :** [https://discord.gg/AWNuK5fa8w]
