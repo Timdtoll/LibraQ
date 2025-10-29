@@ -1,4 +1,4 @@
-package com.example.libraq;
+package com.example.libraq.repository;
 
 import java.util.List;
 

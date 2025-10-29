@@ -1,4 +1,4 @@
-package com.example.libraq;
+package com.example.libraq.controller;
 
 import java.util.List;
 
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.libraq.model.Book;
+import com.example.libraq.repository.BookRepository;
 
 @Controller
 @RequestMapping("/books")
