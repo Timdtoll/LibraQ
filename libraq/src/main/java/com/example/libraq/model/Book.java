@@ -1,4 +1,5 @@
 package com.example.libraq.model;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -6,25 +7,30 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	// enum Genre {
+	// ROMANCE, MYSTERY, CLASSICAL, THRILLER, NONFICTION, FANTASY
+	// }//Maybe make genre an enum later since that makes more sense
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
-	private int totalCopies;
-	private int availableCopies;
+	private boolean available;
+	private String genre;
 
 	public Book() {
 	}
 
-	public Book(String title, String author, int copies) {
+	public Book(String title, String author, String genre) {
 		this.title = title;
 		this.author = author;
-		this.totalCopies = copies;
-		this.availableCopies = copies;
+		this.available = true;
+		this.genre = genre;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getISBN() {
+		return ISBN;
 	}
 
 	public String getTitle() {
@@ -43,19 +49,20 @@ public class Book {
 		this.author = a;
 	}
 
-	public int getTotalCopies() {
-		return totalCopies;
+	public boolean isAvailable() {
+		return available;
 	}
 
-	public void setTotalCopies(int c) {
-		this.totalCopies = c;
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 
-	public int getAvailableCopies() {
-		return availableCopies;
+	public String getGenre() {
+		return genre;
 	}
 
-	public void setAvailableCopies(int c) {
-		this.availableCopies = c;
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
+
 }
