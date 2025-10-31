@@ -16,7 +16,6 @@ public class Book {
 	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
-	private boolean available = true;
 	private String genre;
 
 	public Book() {
@@ -47,14 +46,6 @@ public class Book {
 
 	public void setAuthor(String a) {
 		this.author = a;
-	}
-
-	public boolean isAvailable() {
-		return available;
-	}
-
-	public void setAvailable(boolean available) {
-		this.available = available;
 	}
 
 	public String getGenre() {
