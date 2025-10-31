@@ -42,7 +42,7 @@ Requirements
    - Open LibraqApplication.java in src/main/java/com/example/libraq
    - Right-click → Run As → Java Application
 4. **Access in browser**
-   - http://localhost:8080/books[http://localhost:8080/books]
+   - [http://localhost:8080/home](http://localhost:8080/home)
 
 ## Architecture Overview
 Libraq follows the MVC (Model–View–Controller) pattern:
