@@ -18,6 +18,10 @@ public class BookService {
         this.repo = bookRepository;
     }
 
+    public void clear() {
+        repo.deleteAll();
+    }
+
     public List<Book> getAllBooks() {
         return repo.findAll();
     }

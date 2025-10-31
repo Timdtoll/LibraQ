@@ -1,0 +1,155 @@
+/* === Color Palette ===
+#1D1616 – Deep Espresso (text / contrast)
+#8E1616 – Dark Red (headers / accents)
+#ea2a2a – Bright Red (buttons / highlights)
+#E0DFD5 – Alabaster (main background)
+*/
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #E0DFD5; 
+    color: #1D1616;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto; 
+    min-height: 100vh;                
+    gap: 0;
+}
+
+header {
+    grid-row: 1;
+    background-color: #8E1616; 
+    color: #E0DFD5;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #ea2a2a;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+
+/* Make the main content fill the middle row */
+section {
+    grid-row: 2;
+    padding: 2rem;
+    overflow: auto; /* prevents footer overlap if content grows taller than viewport */
+}
+
+/* Search bar styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 0.6rem;
+    border: 1px solid #8E1616;
+    background-color: #F5F4EF;
+    color: #1D1616;
+    border-radius: 4px 0 0 4px;
+    width: 250px;
+    transition: all 0.2s ease;
+}
+
+.search-bar input::placeholder {
+    color: #5A5A5A;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #ea2a2a;
+    background-color: #FFFFFF;
+}
+
+.search-bar button {
+    padding: 0.6rem 1rem;
+    background-color: #ea2a2a;
+    border: none;
+    color: #E0DFD5;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.search-bar button:hover {
+    background-color: #8E1616;
+    color: #E0DFD5;
+}
+
+/* Section heading */
+section h2 {
+    color: #8E1616;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Book List */
+.book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.book-card {
+    background-color: #FFFFFF;
+    border: 1px solid #ea2a2a;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    border-color: #8E1616;
+    box-shadow: 0 4px 10px rgba(142, 22, 22, 0.25);
+}
+
+.book-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #8E1616;
+}
+
+.book-card p {
+    margin: 0.3rem 0;
+    color: #1D1616;
+}
+
+/* No books message */
+.no-books {
+    text-align: center;
+    color: #8E1616;
+    font-style: italic;
+    margin-top: 2rem;
+}
+
+/* Footer pinned to bottom by grid */
+footer {
+    grid-row: 3;
+    background-color: #1D1616;
+    color: #E0DFD5;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    border-top: 3px solid #8E1616;
+}
+
+/* === (small screens) === */
+@media (max-width: 600px) {
+    header { padding: 0.8rem 1rem; }
+    .search-bar input { width: 140px; }
+    section { padding: 1rem; }
+}

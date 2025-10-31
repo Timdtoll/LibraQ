@@ -16,17 +16,17 @@ public class Book {
 	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
-	private boolean available;
+	private boolean available = true;
 	private String genre;
 
 	public Book() {
 	}
 
-	public Book(String title, String author, String genre) {
+	public Book(String title, String author, String genre, Long ISBN) {
 		this.title = title;
 		this.author = author;
-		this.available = true;
 		this.genre = genre;
+
 	}
 
 	public Long getISBN() {
