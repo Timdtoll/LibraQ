@@ -1,4 +1,4 @@
-package com.example.libraq;
+package com.example.libraq.repository;
 
 import java.util.List;
 
@@ -9,5 +9,8 @@ import com.example.libraq.model.Book;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByTitle(String title);
+
     List<Book> findByAuthor(String author);
+
+    List<Book> findByGenre(String genre);
 }
