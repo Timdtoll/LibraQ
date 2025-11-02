@@ -7,24 +7,23 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Book {
-	// enum Genre {
-	// ROMANCE, MYSTERY, CLASSICAL, THRILLER, NONFICTION, FANTASY
-	// }//Maybe make genre an enum later since that makes more sense
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
-	private String genre;
+	private Genre genre;
+	private boolean isAvailable = true;
 
 	public Book() {
 	}
 
-	public Book(String title, String author, String genre, Long ISBN) {
+	public Book(String title, String author, Genre genre, Long ISBN) {
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
+		this.ISBN = ISBN;
 
 	}
 
@@ -49,10 +48,10 @@ public class Book {
 	}
 
 	public String getGenre() {
-		return genre;
+		return genre.getDisplayName();
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
 

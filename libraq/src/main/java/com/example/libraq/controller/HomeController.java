@@ -1,6 +1,7 @@
 package com.example.libraq.controller;
 
 import com.example.libraq.model.Book;
+import com.example.libraq.model.Genre;
 import com.example.libraq.service.BookService;
 
 import jakarta.annotation.PostConstruct;
@@ -27,12 +28,12 @@ public class HomeController {
     // public void initialize() {
     // // This method is used to add initial books for testing
     // bookService.clear();
-    // bookService.addBook(new Book("1984", "George Orwell", "Classic",
+    // bookService.addBook(new Book("1984", "George Orwell", Genre.CLASSICAL,
     // 234567890123L));
     // bookService.addBook(new Book("To Kill a Mockingbird", "Harper Lee",
-    // "Classic", 123456789023L));
+    // Genre.CLASSICAL, 123456789023L));
     // bookService.addBook(new Book("The Great Gatsby", "F. Scott Fitzgerald",
-    // "Classic", 17183789034L));
+    // Genre.CLASSICAL, 17183789034L));
     // }
 
     @GetMapping("/home")

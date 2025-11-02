@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.libraq.model.Book;
+import com.example.libraq.model.Genre;
 import com.example.libraq.repository.BookRepository;
 
 import java.util.List;
@@ -34,7 +35,7 @@ public class BookService {
         return repo.findByTitle(title);
     }
 
-    public List<Book> findByGenre(String genre) {
+    public List<Book> findByGenre(Genre genre) {
         return repo.findByGenre(genre);
     }
 
