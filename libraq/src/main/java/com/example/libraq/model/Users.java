@@ -4,10 +4,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 @Entity
-public abstract class User {
-	
+@Table(name = "USERS")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Users {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
@@ -15,10 +20,11 @@ public abstract class User {
 	protected String name;
 	protected String email;
 	protected String password;
-	
-	protected User() {}
-	
-	public User(String name, String email, String password) {
+
+	protected Users() {
+	}
+
+	public Users(String name, String email, String password) {
 		this.name = name;
 		this.email = email;
 		this.password = password;

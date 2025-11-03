@@ -12,26 +12,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("local8080/register")
+@RequestMapping("/register")
 public class RegistrationController {
 
-	private final UserService userService;
+    private final UserService userService;
 
-	public RegistrationController(UserService userService) {
-		this.userService = userService;
-	}
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
-	//show registration form
-	@GetMapping
+    // show registration form
+    @GetMapping
     public String showForm(Model model) {
         if (!model.containsAttribute("dto")) {
             model.addAttribute("dto", new RegistrationDto());
         }
-        return "register.html";   // templates/register.html
+        return "register.html"; // templates/register.html
     }
-	
-	//Handle form submission
-   	public String register(@Valid RegistrationDto dto, BindingResult result, Model model) {
+
+    // Handle form submission
+    @PostMapping
+    public String register(@Valid RegistrationDto dto, BindingResult result, Model model) {
 
         // 1) Bean Validation errors (NotBlank, Email, Size, etc.)
         if (result.hasErrors()) {
@@ -59,6 +60,6 @@ public class RegistrationController {
         userService.addUser(user);
 
         // 5) On success, go to login
-        return "redirect:/login";
+        return "redirect:/home";
     }
 }

@@ -3,14 +3,16 @@ package com.example.libraq.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import com.example.libraq.model.User;
+import com.example.libraq.model.Users;
 
-public interface UserRepository extends JpaRepository<User, Long>  {
-	
-	List<User> findByUserType(String userType);
-	
-	List<User> findByEmail(String email);
-	
-	List<User> findByName(String name);
+@Repository
+public interface UserRepository extends JpaRepository<Users, Long> {
+
+	List<Users> findByUserType(String userType);
+
+	List<Users> findByEmail(String email);
+
+	List<Users> findByName(String name);
 }
