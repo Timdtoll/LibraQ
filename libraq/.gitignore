@@ -1,0 +1,4 @@
+/bin/
+*.mv.db
+*.trace.db
+/libraq/data/

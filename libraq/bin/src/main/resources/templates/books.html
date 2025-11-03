@@ -1,0 +1,36 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+
+    <!-- Search -->
+    <h2>Find a Book</h2>
+    <form th:action="@{/books}" method="get" style="margin-bottom:1rem;">
+      <input name="q" th:value="${q}" placeholder="Search term">
+      <label><input type="radio" name="by" value="title" th:checked="${by == 'title'}"> By Title</label>
+      <label><input type="radio" name="by" value="author" th:checked="${by == 'author'}"> By Author</label>
+      <button type="submit">Search</button>
+      <a th:href="@{/books}">Clear</a>
+    </form>
+
+    <!-- Add -->
+    <h2>Add Book</h2>
+    <form th:action="@{/books}" method="post" style="margin-bottom:1rem;">
+      <input name="title" placeholder="Title" required>
+      <input name="author" placeholder="Author" required>
+      <input name="copies" type="number" min="1" value="1">
+      <button type="submit">Add</button>
+    </form>
+
+    <!-- Results -->
+    <h2 th:text="${#strings.isEmpty(q) ? 'All Books' : 'Results'}"></h2>
+    <div th:if="${#lists.isEmpty(books)}">No books found.</div>
+    <ul>
+      <li th:each="b : ${books}">
+        <span th:text="${b.title}"></span> — 
+        <span th:text="${b.author}"></span>
+        <span th:text="${'(available ' + b.availableCopies + '/' + b.totalCopies + ')'}"></span>
+      </li>
+    </ul>
+
+  </body>
+</html>
