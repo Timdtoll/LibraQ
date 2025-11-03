@@ -1,8 +1,8 @@
 package com.example.libraq.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+// import jakarta.persistence.GeneratedValue;
+// import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
@@ -14,7 +14,7 @@ public class Book {
 	private String title;
 	private String author;
 	private Genre genre;
-	private boolean isAvailable = true;
+	private boolean available = true;
 
 	public Book() {
 	}
@@ -47,8 +47,8 @@ public class Book {
 		this.author = a;
 	}
 
-	public String getGenre() {
-		return genre.getDisplayName();
+	public Genre getGenre() {
+		return genre;
 	}
 
 	public void setGenre(Genre genre) {

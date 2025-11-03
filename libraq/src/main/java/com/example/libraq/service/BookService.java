@@ -47,4 +47,19 @@ public class BookService {
         repo.save(book);
     }
 
+    public List<Book> searchBooks(String query, List<Genre> genres) {
+        if ((query == null || query.trim().isEmpty()) && (genres == null || genres.isEmpty())) {
+            return getAllBooks();
+        }
+
+        List<Book> allBooks = getAllBooks();
+        return allBooks.stream()
+                .filter(book -> (query == null || query.isBlank()
+                        || book.getTitle().toLowerCase().contains(query.toLowerCase())
+                        || book.getAuthor().toLowerCase().contains(query.toLowerCase())))
+                .filter(book -> (genres == null || genres.isEmpty()
+                        || genres.contains(book.getGenre())))
+                .toList();
+    }
+
 }

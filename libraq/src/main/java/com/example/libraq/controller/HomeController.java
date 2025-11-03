@@ -30,29 +30,39 @@ public class HomeController {
     // bookService.clear();
     // bookService.addBook(new Book("1984", "George Orwell", Genre.CLASSICAL,
     // 234567890123L));
-    // bookService.addBook(new Book("To Kill a Mockingbird", "Harper Lee",
-    // Genre.CLASSICAL, 123456789023L));
     // bookService.addBook(new Book("The Great Gatsby", "F. Scott Fitzgerald",
     // Genre.CLASSICAL, 17183789034L));
+    // bookService.addBook(new Book("Cards on the Table", "Agatha Christie",
+    // Genre.MYSTERY, 345678901234L));
+    // bookService.addBook(new Book("The Hobbit", "J.R.R. Tolkien", Genre.FANTASY,
+    // 456789012345L));
+    // bookService.addBook(new Book("Dune", "Frank Herbert", Genre.SCIFI,
+    // 567890123456L));
+    // bookService.addBook(new Book("Pride and Prejudice", "Jane Austen",
+    // Genre.ROMANCE, 678901234567L));
     // }
 
     @GetMapping("/home")
-    public String home(@RequestParam(value = "query", required = false) String query, Model model) {
+    public String home(
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "genres", required = false) List<Genre> selectedGenres,
+            Model model) {
+
         List<Book> books;
-        if (query != null && !query.trim().isEmpty()) {
-            // Combine author and title search
-            List<Book> byTitle = bookService.findByTitle(query);
-            List<Book> byAuthor = bookService.findByAuthor(query);
-            books = byTitle;
-            byAuthor.stream()
-                    .filter(book -> !books.contains(book))
-                    .forEach(books::add);
+
+        if ((query != null && !query.trim().isEmpty()) || (selectedGenres != null && !selectedGenres.isEmpty())) {
+            books = bookService.searchBooks(query, selectedGenres);
         } else {
             books = bookService.getAllBooks();
         }
 
+        // Pass all genres and currently selected ones to the view
+        model.addAttribute("genres", Genre.values());
+        model.addAttribute("selectedGenres", selectedGenres);
         model.addAttribute("books", books);
         model.addAttribute("query", query);
+
         return "index";
     }
+
 }
