@@ -9,11 +9,6 @@ public class Renter extends User {
 	 * Add a field and appropriate methods for amount of money due
 	 * 
 	 */
-	private Long id;
-	private String userType = "Renter";
-	private String name;
-	private String email;
-	private String password;
 	
 	protected Renter() {}
 	
