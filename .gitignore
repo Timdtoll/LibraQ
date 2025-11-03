@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+libraq/data/librarydb.mv.db
+libraq/data/librarydb.trace.db

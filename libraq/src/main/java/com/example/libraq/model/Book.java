@@ -1,32 +1,31 @@
 package com.example.libraq.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+// import jakarta.persistence.GeneratedValue;
+// import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Book {
-	// enum Genre {
-	// ROMANCE, MYSTERY, CLASSICAL, THRILLER, NONFICTION, FANTASY
-	// }//Maybe make genre an enum later since that makes more sense
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	// will automatically generate a unique ISBN
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
-	private boolean available;
-	private String genre;
+	private Genre genre;
+	private boolean available = true; // will be needed in future features
 
 	public Book() {
 	}
 
-	public Book(String title, String author, String genre) {
+	public Book(String title, String author, Genre genre, Long ISBN) {
 		this.title = title;
 		this.author = author;
-		this.available = true;
 		this.genre = genre;
+		this.ISBN = ISBN;
+
 	}
 
 	public Long getISBN() {
@@ -49,19 +48,11 @@ public class Book {
 		this.author = a;
 	}
 
-	public boolean isAvailable() {
-		return available;
-	}
-
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
-
-	public String getGenre() {
+	public Genre getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(Genre genre) {
 		this.genre = genre;
 	}
 
