@@ -64,11 +64,10 @@ public class RegistrationController {
             }
 
             // 4) Create and save a user (default to Renter)
-            // IMPORTANT: you should hash the password in UserService before saving.
             Renter user = new Renter(dto.getName(), dto.getEmail(), dto.getPassword());
             userService.addUser(user);
 
-            // 5) On success, go to login (or wherever your team decided)
+            // 5) On success, go to login
             return "redirect:/login";
         }
     }
