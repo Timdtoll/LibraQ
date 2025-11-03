@@ -10,7 +10,7 @@ import com.example.libraq.model.Users;
 @Repository
 public interface UserRepository extends JpaRepository<Users, Long> {
 
-	List<Users> findByUserType(String userType);
+//	List<Users> findByUserType(String userType);
 
 	List<Users> findByEmail(String email);
 

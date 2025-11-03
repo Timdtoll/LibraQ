@@ -16,7 +16,6 @@ public abstract class Users {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
-	protected String userType;
 	protected String name;
 	protected String email;
 	protected String password;
@@ -34,9 +33,6 @@ public abstract class Users {
 		return id;
 	}
 
-	public String getUserType() {
-		return userType;
-	}
 
 	public String getName() {
 		return name;

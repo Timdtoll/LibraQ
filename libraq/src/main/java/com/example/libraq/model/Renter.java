@@ -15,7 +15,6 @@ public class Renter extends Users {
 	 */
 
 	protected Renter() {
-		userType = "Renter";
 	}
 
 	public Renter(String name, String email, String password) {

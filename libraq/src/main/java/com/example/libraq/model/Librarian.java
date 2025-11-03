@@ -10,7 +10,6 @@ public class Librarian extends Users {
 	// differentiates them from a renter besides the controller
 
 	protected Librarian() {
-		this.userType = "Librarian";
 	}
 
 	public Librarian(String name, String email, String password) {
