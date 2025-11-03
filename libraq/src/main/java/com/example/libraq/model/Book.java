@@ -1,30 +1,35 @@
 package com.example.libraq.model;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+// import jakarta.persistence.GeneratedValue;
+// import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+
+	@Id
+	// will automatically generate a unique ISBN
+	// @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
-	private int totalCopies;
-	private int availableCopies;
+	private Genre genre;
+	private boolean available = true; // will be needed in future features
 
 	public Book() {
 	}
 
-	public Book(String title, String author, int copies) {
+	public Book(String title, String author, Genre genre, Long ISBN) {
 		this.title = title;
 		this.author = author;
-		this.totalCopies = copies;
-		this.availableCopies = copies;
+		this.genre = genre;
+		this.ISBN = ISBN;
+
 	}
 
-	public Long getId() {
-		return id;
+	public Long getISBN() {
+		return ISBN;
 	}
 
 	public String getTitle() {
@@ -43,19 +48,12 @@ public class Book {
 		this.author = a;
 	}
 
-	public int getTotalCopies() {
-		return totalCopies;
+	public Genre getGenre() {
+		return genre;
 	}
 
-	public void setTotalCopies(int c) {
-		this.totalCopies = c;
+	public void setGenre(Genre genre) {
+		this.genre = genre;
 	}
 
-	public int getAvailableCopies() {
-		return availableCopies;
-	}
-
-	public void setAvailableCopies(int c) {
-		this.availableCopies = c;
-	}
 }
