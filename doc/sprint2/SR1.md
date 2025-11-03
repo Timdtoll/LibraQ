@@ -4,15 +4,14 @@
 
 # Unfinished tasks:
 
-- Linking the registration page with the home page and vice versa.  
-- Changing the home page to reflect that a user is signed in.  
-- More advanced Log in function with Spring Security dependency with roles/permissions for different kinds of users(Renter, Librarian) and sessions to keep the users Logged in.
+- Linking the registration page with the home page and vice versa.
+- Changing the home page to reflect that a user is signed in.
+- More advanced Log in function with Spring Security dependency with roles/permissions for different kinds of users(Renter, Librarian) and sessions to keep the users Logged in. (Logging in feature not done)
 
 # New User Stories:
 
-- As a user I want to be able to access the log in/sign up page from the home page, and be redirected back to the home page once I log in, to make it easier and more intuitive to sign up. (7 pts)  
-- As a user I want to be able to see when I’m signed on the home page so that I can tell when I’m logged in and when I’m not. (11 pts)  
-- As a user I want to be able to stay on the home page once I login as my designated role and not have to keep logging in frequently whenever I close the tab. (15 pts)
+- As a user I want to be able to access the log in/sign up page from the home page, and be redirected back to the home page once I log in, to make it easier and more intuitive to sign up. (3 pts)
+- As a user I want to be able to see when I’m signed on the home page so that I can tell when I’m logged in and when I’m not. (11 pts)
 
 # What are practices that you should continue during the next sprint?
 
