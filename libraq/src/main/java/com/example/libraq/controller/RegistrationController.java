@@ -55,7 +55,7 @@ public class RegistrationController {
                 return "register.html";
             }
 
-            // 3) Email must be unique (your UserService returns List<User>)
+            // 3) Email must be unique
             boolean emailExists = !userService.findByEmail(dto.getEmail()).isEmpty();
             if (emailExists) {
                 result.rejectValue("email", "duplicate", "Email already registered");
