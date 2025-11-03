@@ -1,0 +1,322 @@
+/* === Color Palette ===
+#1D1616 – Deep Espresso (text / contrast)
+#8E1616 – Dark Red (headers / accents)
+#ea2a2a – Bright Red (buttons / highlights)
+#E0DFD5 – Alabaster (main background)
+*/
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #E0DFD5; 
+    color: #1D1616;
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto; 
+    min-height: 100vh;                
+    gap: 0;
+}
+
+header {
+    grid-row: 1;
+    background-color: #8E1616; 
+    color: #E0DFD5;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #ea2a2a;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+}
+
+/* Make the main content fill the middle row */
+section {
+    grid-row: 2;
+    padding: 2rem;
+    overflow: auto; /* prevents footer overlap if content grows taller than viewport */
+}
+
+/* Search bar styling */
+.search-bar-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.search-bar {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px; /* roughly matches the book list width */
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.7rem;
+    border: none;
+    background-color: #F5F4EF;
+    color: #1D1616;
+    border-radius: 4px 0 0 4px;
+    transition: all 0.2s ease;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border: none;
+    background-color: #FFFFFF;
+}
+
+.search-bar button {
+    padding: 0.7rem 1.2rem;
+    background-color: #D84040;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 0 4px 4px 0;
+    font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.search-bar button:hover {
+    background-color: #8E1616;
+}
+
+/* Section heading */
+section h2 {
+    color: #8E1616;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Book List */
+.book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.book-card {
+    background-color: #FFFFFF;
+    border: 1px solid #ea2a2a;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    border-color: #8E1616;
+    box-shadow: 0 4px 10px rgba(142, 22, 22, 0.25);
+}
+
+.book-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: #8E1616;
+}
+
+.book-card p {
+    margin: 0.3rem 0;
+    color: #1D1616;
+}
+
+/* No books message */
+.no-books {
+    text-align: center;
+    color: #8E1616;
+    font-style: italic;
+    margin-top: 2rem;
+}
+
+/* Footer pinned to bottom by grid */
+footer {
+    grid-row: 3;
+    background-color: #1D1616;
+    color: #E0DFD5;
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+    border-top: 3px solid #8E1616;
+}
+
+/* === (small screens) === */
+@media (max-width: 600px) {
+    header { padding: 0.8rem 1rem; }
+    .search-bar input { width: 140px; }
+    section { padding: 1rem; }
+}
+
+/* === Layout with Sidebar === */
+.content-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    background-color: #E0DFD5;
+}
+
+/* === Genre Sidebar === */
+.genre-sidebar {
+    background-color: #FFFFFF;
+    padding: 1rem;
+    height: fit-content;
+    align-self: start;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.genre-sidebar h3 {
+    color: #8E1616;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    color: #1D1616;
+    font-size: 0.95rem;
+    background-color: #F9F9F9;
+    border-radius: 4px;
+    padding: 0.3rem 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.checkbox-group label:hover {
+    background-color: #F5EAEA;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 0.4rem;
+}
+
+.filter-btn {
+    margin-top: 1rem;
+    width: 100%;
+    background-color: #D84040;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.filter-btn:hover {
+    background-color: #8E1616;
+}
+
+/* === Main Section Styling === */
+main {
+    background-color: #E0DFD5;
+    padding: 1rem;
+}
+
+section h2 {
+    color: #8E1616;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* === Responsive === */
+@media (max-width: 900px) {
+    .content-container {
+        grid-template-columns: 1fr;
+    }
+
+    .genre-sidebar {
+        order: -1;
+        width: 100%;
+    }
+}
+
+/* === Registration Page Styling === */
+
+.registration-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.registration-card {
+    background: #E0DFD5; /* Alabaster */
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(29,22,22,0.2);
+    max-width: 450px;
+    width: 100%;
+}
+
+.registration-card h2 {
+    color: #8E1616; /* Dark Red */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.registration-form .form-group {
+    margin-bottom: 15px;
+}
+
+.registration-form label {
+    color: #1D1616; /* Deep Espresso */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.registration-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #1D1616;
+    border-radius: 5px;
+    background: white;
+    color: #1D1616;
+}
+
+.register-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #ea2a2a; /* Bright Red */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.register-btn:hover {
+    background: #8E1616; /* Dark Red */
+}
+
+.login-link {
+    margin-top: 15px;
+    text-align: center;
+    color: #1D1616;
+}
+
+.login-link a {
+    color: #8E1616;
+    font-weight: bold;
+}
+
+

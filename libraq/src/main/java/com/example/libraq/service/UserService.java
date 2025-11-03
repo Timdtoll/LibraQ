@@ -2,35 +2,37 @@ package com.example.libraq.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.example.libraq.model.User;
+import com.example.libraq.model.Users;
 import com.example.libraq.repository.UserRepository;
 
 import java.util.List;
 
 @Service
 public class UserService {
-	
+
 	private final UserRepository userRepo;
-	
+
 	@Autowired
 	public UserService(UserRepository userRepository) {
 		this.userRepo = userRepository;
 	}
-	
-	public List<User> getAllUsers() {
+
+	public List<Users> getAllUsers() {
 		return userRepo.findAll();
 	}
-	
-	public List<User> findByEmail(String email) {
+
+	public List<Users> findByEmail(String email) {
 		return userRepo.findByEmail(email);
 	}
-	
-	public List<User> findByname(String name) {
+
+	public List<Users> findByname(String name) {
 		return userRepo.findByName(name);
 	}
-	
-	public void addUser(User user) {
+
+	@Transactional
+	public void addUser(Users user) {
 		userRepo.save(user);
 	}
 }
