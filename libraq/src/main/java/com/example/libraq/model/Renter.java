@@ -15,23 +15,10 @@ public class Renter extends User {
 	private String email;
 	private String password;
 	
+	protected Renter() {}
+	
 	public Renter(String name, String email, String password) {
 		super(name, email, password);
 	}
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public String getEmail() {
-		return this.email;
-	}
-	
-	public String getPassword() {
-		return this.password;
-	}
-	
-	public String getUserType() {
-		return this.userType;
-	}
+
 }
