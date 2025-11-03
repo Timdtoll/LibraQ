@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/register")
+@RequestMapping("local8080/register")
 public class RegistrationController {
 
 	private final UserService userService;
@@ -39,8 +39,9 @@ public class RegistrationController {
             model.addAttribute("dto", dto);
             return "register.html";
         }
+    }
         
-        public String register(@Valid RegistrationDto dto, BindingResult result, Model model) {
+       	public String register(@Valid RegistrationDto dto, BindingResult result, Model model) {
 
             // 1) Bean Validation errors (NotBlank, Email, Size, etc.)
             if (result.hasErrors()) {

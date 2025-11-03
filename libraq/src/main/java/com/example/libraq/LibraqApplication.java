@@ -9,5 +9,4 @@ public class LibraqApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LibraqApplication.class, args);
 	}
-
 }
