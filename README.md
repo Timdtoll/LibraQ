@@ -42,14 +42,14 @@ Requirements
    - Open LibraqApplication.java in src/main/java/com/example/libraq
    - Right-click → Run As → Java Application
 4. **Access in browser**
-   - http://localhost:8080/books[http://localhost:8080/books]
+   - [http://localhost:8080/home](http://localhost:8080/home)
 
 ## Architecture Overview
 Libraq follows the MVC (Model–View–Controller) pattern:
 
  - Model: Book entity, mapped with JPA to an H2 database
 
- - View: Thymeleaf HTML templates (in src/main/resources/templates/books.html)
+ - View: Thymeleaf HTML templates (in src/main/resources/templates)
 
  - Controller: Handles HTTP requests and connects model <-> view
 
@@ -61,9 +61,19 @@ We follow the Git Flow branching model to organize development and maintain a cl
 | Branch Type |	Purpose |
 |-------------|-------- |
 | main| Contains stable, production-ready code (used for final sprint releases) |
-| dev	| Ongoing development branch that integrates all sprint branches |
 | sprint/<number>	| A dedicated branch for each sprint cycle (e.g., sprint/1, sprint/2) |
 | feature/<feature-name>	| Branches created from within the current sprint branch to develop individual features or fixes |
+
+### Database Access
+- We are using H2 for our DB layer
+-  To access the DB go to [http://localhost:8080/h2-controller](http://localhost:8080/h2-controller) and connect using the following login:
+
+| Entry | Value |
+| ----- | ----- |
+| Driver Class: | org.h2.Driver |
+| JDBC URL: | jdbc:h2:./data/librarydb |
+| User Name | sa |
+| Password |  |
 
 
 ## Authors
