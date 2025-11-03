@@ -9,12 +9,13 @@ import jakarta.persistence.Id;
 public class Book {
 
 	@Id
+	// will automatically generate a unique ISBN
 	// @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
 	private Genre genre;
-	private boolean available = true;
+	private boolean available = true; // will be needed in future features
 
 	public Book() {
 	}

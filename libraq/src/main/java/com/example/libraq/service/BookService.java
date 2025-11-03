@@ -47,11 +47,18 @@ public class BookService {
         repo.save(book);
     }
 
+    /**
+     * Search books by query (Title/Author) and genres
+     * 
+     * @param query  the search query either title or author
+     * @param genres list of genres to filter for
+     * @return list of books matching the criteria
+     */
     public List<Book> searchBooks(String query, List<Genre> genres) {
         if ((query == null || query.trim().isEmpty()) && (genres == null || genres.isEmpty())) {
-            return getAllBooks();
+            return getAllBooks(); // No filters applied return all books
         }
-
+        // Otherwise filter books based on query and genres
         List<Book> allBooks = getAllBooks();
         return allBooks.stream()
                 .filter(book -> (query == null || query.isBlank()
