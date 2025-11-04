@@ -66,7 +66,7 @@ We follow the Git Flow branching model to organize development and maintain a cl
 
 ### Database Access
 - We are using H2 for our DB layer
--  To access the DB go to [http://localhost:8080/h2-controller](http://localhost:8080/h2-controller) and connect using the following login:
+-  To access the DB go to [http://localhost:8080/h2-console](http://localhost:8080/h2-console) and connect using the following login:
 
 | Entry | Value |
 | ----- | ----- |
