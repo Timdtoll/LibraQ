@@ -98,6 +98,31 @@ section h2 {
     text-align: center;
 }
 
+/* login button */
+.login-btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 200px;
+    height: 73px;
+    background-color: #8E1616;
+    color: #FFFFFF;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-size: 2em;
+    font-weight: bolder;
+
+    text-align: center;
+    border-left: 3px solid #ea2a2a;
+    border-bottom: 3px solid #ea2a2a;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.login-btn:hover {
+    background-color: #D84040;
+}
+
 /* Book List */
 .book-list {
     display: grid;
@@ -223,6 +248,8 @@ footer {
 .filter-btn:hover {
     background-color: #8E1616;
 }
+
+
 
 /* === Main Section Styling === */
 main {
