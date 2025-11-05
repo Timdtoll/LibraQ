@@ -320,3 +320,72 @@ section h2 {
 }
 
 
+/* === Login Page Styling === */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.login-card {
+    background: #E0DFD5; /* Alabaster */
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(29,22,22,0.2);
+    max-width: 450px;
+    width: 100%;
+}
+
+.login-card h2 {
+    color: #8E1616; /* Dark Red */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-form .form-group {
+    margin-bottom: 15px;
+}
+
+.login-form label {
+    color: #1D1616; /* Deep Espresso */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #1D1616;
+    border-radius: 5px;
+    background: white;
+    color: #1D1616;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #ea2a2a; /* Bright Red */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #8E1616; /* Dark Red */
+}
+
+.register-link {
+    margin-top: 15px;
+    text-align: center;
+    color: #1D1616;
+}
+
+.register-link a {
+    color: #8E1616;
+    font-weight: bold;
+}
