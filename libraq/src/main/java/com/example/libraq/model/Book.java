@@ -56,4 +56,7 @@ public class Book {
 		this.genre = genre;
 	}
 
+	public boolean isAvailable() {
+		return available;
+	}
 }
