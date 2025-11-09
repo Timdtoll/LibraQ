@@ -22,7 +22,7 @@
         <section class="book-details">
             <h2 th:text="${book.title}"></h2>
             <p>Author: <span th:text="${book.author}"></span></p>
-            <p>Genre: <span th:text="${book.genre}"></span></p>
+            <p>Genre: <span th:text="${book.genre.displayName}"></span></p>
             <p>Status:
                 <span th:if="${book.available}" style="color: green;">Available</span>
                 <span th:if="${!book.available}" style="color: red;">Unavailable</span>
