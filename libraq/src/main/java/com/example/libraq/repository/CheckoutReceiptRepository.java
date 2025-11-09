@@ -10,6 +10,6 @@ public interface CheckoutReceiptRepository extends JpaRepository<CheckoutReceipt
 
     List<CheckoutReceipt> findByUserId(Long userId);
 
-    List<CheckoutReceipt> findByBookId(Long bookId);
+    List<CheckoutReceipt> findByBookISBN(Long bookISBN);
 
 }

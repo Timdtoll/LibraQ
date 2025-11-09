@@ -7,7 +7,7 @@
 </head>
 <body>
     <header>
-        <h1>LibraQ</h1>
+        <h1><a href="/home" class="logo-link">LibraQ</a></h1>
         <!-- user profile/logout buttons will go in the header -->
          <button class="login-btn" onclick="document.location.href='/login'">Login</button>
     </header>
@@ -50,11 +50,13 @@
 
                 <div class="book-list" th:if="${!#lists.isEmpty(books)}">
                     <div class="book-card" th:each="book : ${books}">
-                        <h3 th:text="${book.title}">Book Title</h3>
-                        <p><strong>Author:</strong> <span th:text="${book.author}">Author Name</span></p>
-                        <p><strong>Genre:</strong> <span th:text="${book.genre.displayName}">Genre</span></p>
-                        <p th:if="${book.isAvailable()}" style="color: green;">Available</p>
-                        <p th:if="${!book.isAvailable()}" style="color: red;">Unavailable</p>
+                        <a th:href="@{/books/{isbn}(isbn=${book.getISBN()})}" class="book-link">
+                            <h3 th:text="${book.title}">Book Title</h3>
+                            <p><strong>Author:</strong> <span th:text="${book.author}">Author Name</span></p>
+                            <p><strong>Genre:</strong> <span th:text="${book.genre.displayName}">Genre</span></p>
+                            <p th:if="${book.isAvailable()}" style="color: green;">Available</p>
+                            <p th:if="${!book.isAvailable()}" style="color: red;">Unavailable</p>
+                        </a>
                     </div>
                 </div>
             </section>

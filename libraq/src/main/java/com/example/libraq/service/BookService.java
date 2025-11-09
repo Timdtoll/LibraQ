@@ -27,6 +27,10 @@ public class BookService {
         return repo.findAll();
     }
 
+    public java.util.Optional<Book> findByISBN(Long id) {
+        return repo.findById(id);
+    }
+
     public List<Book> findByAuthor(String author) {
         return repo.findByAuthor(author);
     }

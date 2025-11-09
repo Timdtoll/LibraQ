@@ -38,6 +38,12 @@ header h1 {
     letter-spacing: 1px;
 }
 
+.logo-link {
+    color: #E0DFD5;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
 /* Make the main content fill the middle row */
 section {
     grid-row: 2;
@@ -49,7 +55,7 @@ section {
 .search-bar-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .search-bar {
@@ -98,7 +104,6 @@ section h2 {
     text-align: center;
 }
 
-/* login button */
 button.login-btn {
     padding: 0.7rem 1.2rem;
     background-color: #731010;
@@ -107,6 +112,7 @@ button.login-btn {
     cursor: pointer;
     border-radius: 4px;
     font-weight: bold;
+    width: auto; 
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -145,6 +151,10 @@ button.login-btn:hover{
 .book-card p {
     margin: 0.3rem 0;
     color: #1D1616;
+}
+
+.book-link {
+    text-decoration: none;
 }
 
 /* No books message */
@@ -406,4 +416,62 @@ section h2 {
 .register-link a {
     color: #8E1616;
     font-weight: bold;
+}
+
+/* === Book Details Page Styling === */
+
+/* Added styling for the book details layout */
+.book-details-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #E0DFD5;
+    padding: 2rem 0;
+}
+
+/* Slightly wider search bar specific to this page */
+.book-details-page .search-bar-container {
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+/* Centered white card for book info */
+.book-details {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    min-width: 350px;
+    text-align: left;
+}
+
+.book-details h2 {
+    color: #1D1616;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.book-details p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+/* Checkout button */
+.checkout-btn {
+    display: inline-block;
+    background-color: #5E0000;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.checkout-btn:hover {
+    background-color: #8E1616;
 }

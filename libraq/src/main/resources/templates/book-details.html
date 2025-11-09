@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LibraQ</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1><a href="/home" class="logo-link">LibraQ</a></h1>
+         <button class="login-btn" onclick="document.location.href='/login'">Login</button>
+    </header>
+
+    <main class="book-details-page">
+        <div class="search-bar-container">
+            <form th:action="@{/home}" method="get" class="search-bar">
+                <input type="text" name="query" placeholder="Search by title or author..." th:value="${query}" />
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <section class="book-details">
+            <h2 th:text="${book.title}"></h2>
+            <p>Author: <span th:text="${book.author}"></span></p>
+            <p>Genre: <span th:text="${book.genre}"></span></p>
+            <p>Status:
+                <span th:if="${book.available}" style="color: green;">Available</span>
+                <span th:if="${!book.available}" style="color: red;">Unavailable</span>
+            </p>
+
+            <form th:if="${book.available}">
+                <button class="checkout-btn" type="submit">Check Out</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 LibraQ Library System</p>
+    </footer>
+</body>
+</html>

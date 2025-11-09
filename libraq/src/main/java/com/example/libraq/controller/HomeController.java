@@ -4,20 +4,20 @@ import com.example.libraq.model.Book;
 import com.example.libraq.model.Genre;
 import com.example.libraq.service.BookService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class HomeController {
 
     private final BookService bookService;
 
-    @Autowired
     public HomeController(BookService bookService) {
         this.bookService = bookService;
     }
@@ -43,6 +43,21 @@ public class HomeController {
         model.addAttribute("query", query);
 
         return "index"; // Thymeleaf template name
+    }
+
+    // Book details page
+    @GetMapping("/books/{isbn}")
+    public String viewBook(@PathVariable Long isbn, Model model) {
+        Optional<Book> bookOpt = bookService.findByISBN(isbn);
+
+        if (bookOpt.isEmpty()) {
+            // You can later make a custom error page
+            return "redirect:/?error=bookNotFound";
+        }
+
+        Book book = bookOpt.get();
+        model.addAttribute("book", book);
+        return "book-details.html"; // create this template next
     }
 
 }
