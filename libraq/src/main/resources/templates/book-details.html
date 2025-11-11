@@ -28,7 +28,7 @@
                 <span th:if="${!book.available}" style="color: red;">Unavailable</span>
             </p>
 
-            <form th:if="${book.available}">
+            <form th:action="@{|/books/${book.getISBN()}/checkout|}" method="post" th:if="${book.available}">
                 <button class="checkout-btn" type="submit">Check Out</button>
             </form>
         </section>

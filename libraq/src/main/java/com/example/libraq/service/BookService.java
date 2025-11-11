@@ -51,6 +51,10 @@ public class BookService {
         repo.save(book);
     }
 
+    public Book getBookByISBN(Long isbn) {
+        return repo.findById(isbn).orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + isbn));
+    }
+
     /**
      * Search books by query (Title/Author) and genres
      * 

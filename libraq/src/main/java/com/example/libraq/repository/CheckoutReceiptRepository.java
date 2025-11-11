@@ -5,11 +5,16 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.libraq.model.CheckoutReceipt;
+import com.example.libraq.model.Users;
 
 public interface CheckoutReceiptRepository extends JpaRepository<CheckoutReceipt, Long> {
 
     List<CheckoutReceipt> findByUserId(Long userId);
 
+    List<CheckoutReceipt> findByUser(Users user);
+
     List<CheckoutReceipt> findByBookISBN(Long bookISBN);
+
+    List<CheckoutReceipt> findByReturnDateIsNull();
 
 }

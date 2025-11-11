@@ -44,20 +44,4 @@ public class HomeController {
 
         return "index"; // Thymeleaf template name
     }
-
-    // Book details page
-    @GetMapping("/books/{isbn}")
-    public String viewBook(@PathVariable Long isbn, Model model) {
-        Optional<Book> bookOpt = bookService.findByISBN(isbn);
-
-        if (bookOpt.isEmpty()) {
-            // You can later make a custom error page
-            return "redirect:/?error=bookNotFound";
-        }
-
-        Book book = bookOpt.get();
-        model.addAttribute("book", book);
-        return "book-details.html"; // create this template next
-    }
-
 }
