@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>LibraQ</title>
@@ -28,9 +29,24 @@
                 <span th:if="${!book.available}" style="color: red;">Unavailable</span>
             </p>
 
-            <form th:action="@{|/books/${book.getISBN()}/checkout|}" method="post" th:if="${book.available}">
-                <button class="checkout-btn" type="submit">Check Out</button>
-            </form>
+            <!-- Checkout section - different messages based on user status -->
+            <div th:if="${!book.available}">
+                <p style="color: red;">This book is currently unavailable.</p>
+            </div>
+            
+            <div th:if="${book.available}">
+                <!-- RENTER: Show checkout button -->
+                <div sec:authorize="hasRole('RENTER')">
+                    <form th:action="@{|/books/${book.getISBN()}/checkout|}" method="post">
+                        <button class="checkout-btn" type="submit">Check Out</button>
+                    </form>
+                </div>
+                
+                <!-- Anonymous users: Show login prompt -->
+                <div sec:authorize="!isAuthenticated()">
+                    <p>Please <a th:href="@{/login}">login as a Renter</a> to checkout this book.</p>
+                </div>
+            </div>
         </section>
     </main>
 

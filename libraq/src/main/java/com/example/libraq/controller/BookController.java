@@ -3,6 +3,7 @@ package com.example.libraq.controller;
 import java.security.Principal;
 import java.util.Optional;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,7 @@ public class BookController {
     }
 
     @PostMapping("/{isbn}/checkout")
+    @PreAuthorize("hasRole('RENTER')")
     public String checkoutBook(@PathVariable Long isbn, Principal principal) {
         Users user = userService.findByEmail(principal.getName()).get(0);
         Book book = bookService.getBookByISBN(isbn);
