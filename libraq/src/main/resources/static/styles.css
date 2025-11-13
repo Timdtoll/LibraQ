@@ -308,6 +308,15 @@ section h2 {
     background: #8E1616; /* Dark Red */
 }
 
+
+.header-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: #E0DFD5;
+}
+
 .login-link {
     margin-top: 15px;
     text-align: center;
@@ -318,5 +327,27 @@ section h2 {
     color: #8E1616;
     font-weight: bold;
 }
+
+.primary-button {
+    background-color: #E0DFD5;
+    color: #8E1616;
+    padding: 0.4rem 0.9rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.primary-button:hover {
+    filter: brightness(0.95);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+
+
 
 

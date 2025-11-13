@@ -7,9 +7,29 @@
 </head>
 <body>
     <header>
-        <h1>LibraQ</h1>
-        <!-- user profile/logout buttons will go in the header -->
-    </header>
+    <h1>LibraQ</h1>
+
+    <div class="header-right">
+        <div class="header-status">
+            <!-- If user is logged in -->
+            <div th:if="${isLoggedIn}">
+                <span>Signed in as </span>
+                <strong th:text="${currentUser.name}">John Doe</strong>
+                <span>(
+                    <span th:text="${currentUser.email}">john@example.com</span>
+                )</span>
+            </div>
+
+            <!-- If user is NOT logged in -->
+            <div th:if="${!isLoggedIn}">
+                <span>You are not signed in.</span>
+            </div>
+        </div>
+
+        <!-- This is just navigation, not login logic -->
+        <a th:href="@{/register}" class="primary-button">Create Account</a>
+    </div>
+</header>
 
     <div class="content-container">
         <!-- Sidebar for Genre Filters -->

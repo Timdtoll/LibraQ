@@ -1,9 +1,12 @@
 package com.example.libraq.controller;
 
 import com.example.libraq.model.Book;
+
 import com.example.libraq.model.Genre;
 import com.example.libraq.service.BookService;
+import com.example.libraq.model.Users;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
+
 
 @Controller
 public class HomeController {
@@ -22,10 +27,11 @@ public class HomeController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/home")
+    @GetMapping({"/", "/home"})
     public String home(
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "genres", required = false) List<Genre> selectedGenres,
+            HttpSession session,
             Model model) {
 
         List<Book> books;
@@ -41,6 +47,12 @@ public class HomeController {
         model.addAttribute("selectedGenres", selectedGenres);
         model.addAttribute("books", books);
         model.addAttribute("query", query);
+
+        Users currentUser = (Users) session.getAttribute("currentUser");
+        boolean isLoggedIn = (currentUser != null);
+
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("isLoggedIn", isLoggedIn);
 
         return "index"; // Thymeleaf template name
     }
