@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>LibraQ</title>
@@ -28,13 +29,27 @@
                 <span th:if="${!book.available}" style="color: red;">Unavailable</span>
             </p>
 
-            <!-- Checkout button -->
-            <button class="checkout-btn"
-                    th:if="${book.available}"
-                    th:attr="data-title=${book.title}, data-author=${book.author}, data-isbn=${book.ISBN}"
-                    onclick="openConfirmPopup(this)">
-                Check Out
-            </button>
+            <!-- Checkout section - different messages based on user status -->
+            <div th:if="${!book.available}">
+                <p style="color: red;">This book is currently unavailable.</p>
+            </div>
+            
+            <div th:if="${book.available}">
+                <!-- RENTER: Show checkout button -->
+                <div sec:authorize="hasRole('RENTER')">
+                    <button class="checkout-btn"
+                            th:if="${book.available}"
+                            th:attr="data-title=${book.title}, data-author=${book.author}, data-isbn=${book.ISBN}"
+                            onclick="openConfirmPopup(this)">
+                        Check Out
+                    </button>
+                </div>
+                
+                <!-- Anonymous users: Show login prompt -->
+                <div sec:authorize="!isAuthenticated()">
+                    <p>Please <a th:href="@{/login}">login as a Renter</a> to checkout this book.</p>
+                </div>
+            </div>
         </section>
     </main>
 
