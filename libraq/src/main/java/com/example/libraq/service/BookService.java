@@ -27,6 +27,10 @@ public class BookService {
         return repo.findAll();
     }
 
+    public java.util.Optional<Book> findByISBN(Long id) {
+        return repo.findById(id);
+    }
+
     public List<Book> findByAuthor(String author) {
         return repo.findByAuthor(author);
     }
@@ -45,6 +49,10 @@ public class BookService {
 
     public void addBook(Book book) {
         repo.save(book);
+    }
+
+    public Book getBookByISBN(Long isbn) {
+        return repo.findById(isbn).orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + isbn));
     }
 
     /**

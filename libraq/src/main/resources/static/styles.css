@@ -38,6 +38,12 @@ header h1 {
     letter-spacing: 1px;
 }
 
+.logo-link {
+    color: #E0DFD5;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
 /* Make the main content fill the middle row */
 section {
     grid-row: 2;
@@ -49,7 +55,7 @@ section {
 .search-bar-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .search-bar {
@@ -98,6 +104,22 @@ section h2 {
     text-align: center;
 }
 
+button.login-btn {
+    padding: 0.7rem 1.2rem;
+    background-color: #731010;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    width: auto; 
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button.login-btn:hover{
+    background-color: #D84040;
+}
+
 /* Book List */
 .book-list {
     display: grid;
@@ -129,6 +151,10 @@ section h2 {
 .book-card p {
     margin: 0.3rem 0;
     color: #1D1616;
+}
+
+.book-link {
+    text-decoration: none;
 }
 
 /* No books message */
@@ -223,6 +249,8 @@ footer {
 .filter-btn:hover {
     background-color: #8E1616;
 }
+
+
 
 /* === Main Section Styling === */
 main {
@@ -320,3 +348,247 @@ section h2 {
 }
 
 
+/* === Login Page Styling === */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.login-card {
+    background: #E0DFD5; /* Alabaster */
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(29,22,22,0.2);
+    max-width: 450px;
+    width: 100%;
+}
+
+.login-card h2 {
+    color: #8E1616; /* Dark Red */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-form .form-group {
+    margin-bottom: 15px;
+}
+
+.login-form label {
+    color: #1D1616; /* Deep Espresso */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #1D1616;
+    border-radius: 5px;
+    background: white;
+    color: #1D1616;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #ea2a2a; /* Bright Red */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background: #8E1616; /* Dark Red */
+}
+
+.register-link {
+    margin-top: 15px;
+    text-align: center;
+    color: #1D1616;
+}
+
+.register-link a {
+    color: #8E1616;
+    font-weight: bold;
+}
+
+/* === Book Details Page Styling === */
+
+/* Added styling for the book details layout */
+.book-details-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #E0DFD5;
+    padding: 2rem 0;
+}
+
+/* Slightly wider search bar specific to this page */
+.book-details-page .search-bar-container {
+    width: 60%;
+    margin-bottom: 2rem;
+}
+
+/* Centered white card for book info */
+.book-details {
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    min-width: 350px;
+    text-align: left;
+}
+
+.book-details h2 {
+    color: #1D1616;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.book-details p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+/* Checkout button */
+.checkout-btn {
+    display: inline-block;
+    background-color: #5E0000;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.checkout-btn:hover {
+    background-color: #8E1616;
+}
+
+/* === Popup Styling === */
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(29, 22, 22, 0.7); /* semi-transparent dark overlay */
+    display: none; /* hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup box */
+.popup-box {
+    background-color: #E0DFD5; /* matches site background */
+    border: 2px solid #8E1616;
+    border-radius: 10px;
+    padding: 2rem;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    animation: popupFadeIn 0.2s ease-in-out;
+}
+
+/* Title / message */
+.popup-box h3 {
+    color: #8E1616;
+    margin-bottom: 1rem;
+}
+
+.popup-box p {
+    color: #1D1616;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Close “X” button in corner */
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #1D1616;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.popup-close:hover {
+    color: #D84040;
+}
+
+/* Reusable popup button */
+.popup-btn {
+    background-color: #D84040;
+    color: #FFFFFF;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 0 0.5rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.popup-btn:hover {
+    background-color: #8E1616;
+    transform: translateY(-2px);
+}
+
+/* Cancel button slightly different from regular button */
+.popup-btn.cancel {
+    background-color: #8E1616;
+}
+
+.popup-btn.cancel:hover {
+    background-color: #1D1616;
+}
+
+.popup-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem; 
+    margin-top: 1rem;
+}
+
+.popup-box .success-title {
+    color: #2e7d32; /* dark green for success */
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.popup-box .error-title {
+    color: #c62828; /* dark red for error */
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+#resultPopup p {
+    text-align: center;
+    margin: 0.5rem 0 1rem 0;
+    font-size: 1rem;
+}
+
+/* Animation */
+@keyframes popupFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
