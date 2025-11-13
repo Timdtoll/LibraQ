@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.libraq.model.Book;
 import com.example.libraq.model.Users;
@@ -43,10 +44,19 @@ public class BookController {
     }
 
     @PostMapping("/{isbn}/checkout")
-    public String checkoutBook(@PathVariable Long isbn, Principal principal) {
-        Users user = userService.findByEmail(principal.getName()).get(0);
-        Book book = bookService.getBookByISBN(isbn);
-        checkoutService.checkoutBook(user, book);
+    public String checkoutBook(@PathVariable Long isbn, Principal principal, RedirectAttributes redirectAttributes) {
+        try {
+            Users user = userService.findByEmail(principal.getName()).get(0);
+            Book book = bookService.getBookByISBN(isbn);
+            checkoutService.checkoutBook(user, book);
+
+            redirectAttributes.addFlashAttribute("checkoutSuccess",
+                    "You have successfully checked out " + book.getTitle() + " by " + book.getAuthor() + ".");
+
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("checkoutError", e.getMessage());
+        }
+
         return "redirect:/books/" + isbn;
     }
 }
