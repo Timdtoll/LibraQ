@@ -9,7 +9,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
     <header>
         <h1><a href="/home" class="logo-link">LibraQ</a></h1>
-         <button class="login-btn" onclick="document.location.href='/login'">Login</button>
+        <button class="login-btn" onclick="document.location.href='/login'">Login</button>
     </header>
 
     <main class="book-details-page">
@@ -37,9 +37,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <div th:if="${book.available}">
                 <!-- RENTER: Show checkout button -->
                 <div sec:authorize="hasRole('RENTER')">
-                    <form th:action="@{|/books/${book.getISBN()}/checkout|}" method="post">
-                        <button class="checkout-btn" type="submit">Check Out</button>
-                    </form>
+                    <button class="checkout-btn"
+                            th:if="${book.available}"
+                            th:attr="data-title=${book.title}, data-author=${book.author}, data-isbn=${book.ISBN}"
+                            onclick="openConfirmPopup(this)">
+                        Check Out
+                    </button>
                 </div>
                 
                 <!-- Anonymous users: Show login prompt -->
@@ -50,9 +53,68 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Confirmation Popup (before checkout is submitted) -->
+    <div id="confirmPopup" class="popup-overlay" style="display:none;">
+        <div class="popup-box">
+            <button class="popup-close" onclick="closePopup('confirmPopup')">×</button>
+            <h3>Confirm Checkout</h3>
+            <p id="confirmMessage"></p>
+            <div class="popup-actions">
+                <form id="checkoutForm" method="post">
+                    <button type="submit" class="popup-btn">Confirm</button>
+                </form>
+                <button type="button" class="popup-btn cancel" onclick="closePopup('confirmPopup')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success / Error Popup (after book has been attempted to be checked out) -->
+    <div id="resultPopup" class="popup-overlay"
+        th:if="${checkoutSuccess != null or checkoutError != null}" style="display:flex;">
+        <div class="popup-box">
+            <button class="popup-close" onclick="closePopup('resultPopup')">×</button>
+
+            <h3 th:if="${checkoutSuccess != null}" class="success-title">Success</h3>
+            <h3 th:if="${checkoutError != null}" class="error-title">Error</h3>
+            
+            <p th:if="${checkoutSuccess != null}" th:text="${checkoutSuccess}"></p>
+            <p th:if="${checkoutError != null}" th:text="${checkoutError}"></p> 
+
+            <div class="popup-actions">
+                <button type="button" class="popup-btn" onclick="window.location.href='/home'">Take Me Home</button>
+            </div>
+        </div>
+    </div>
+
+
+
     <footer>
         <p>&copy; 2025 LibraQ Library System</p>
     </footer>
+
+    <script>
+        function openConfirmPopup(button) {
+            const title = button.getAttribute('data-title');
+            const author = button.getAttribute('data-author');
+            const isbn = button.getAttribute('data-isbn');
+
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 14);
+            const formattedDate = dueDate.toLocaleDateString();
+
+            const msg = `Do you want to check out "${title}" by ${author}? \nIt will be due on ${formattedDate}.`;
+            document.getElementById('confirmMessage').innerText = msg;
+
+            const form = document.getElementById('checkoutForm');
+            form.action = `/books/${isbn}/checkout`;
+
+            document.getElementById('confirmPopup').style.display = 'flex';
+        }
+
+        function closePopup(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
+
 </body>
 </html>
