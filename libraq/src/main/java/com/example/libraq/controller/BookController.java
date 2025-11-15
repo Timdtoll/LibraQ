@@ -36,12 +36,18 @@ public class BookController {
     public String viewBook(@PathVariable Long isbn, Model model) {
         Optional<Book> bookOpt = bookService.findByISBN(isbn);
         if (bookOpt.isEmpty()) {
-            // You can later make a custom error page
             return "redirect:/?error=bookNotFound";
         }
         Book book = bookOpt.get();
         model.addAttribute("book", book);
-        return "book-details.html"; // create this template next
+        if (!book.isAvailable()) {
+            try {
+                model.addAttribute("activeCheckout", checkoutService.getActiveCheckoutByBook(book));
+            } catch (IllegalArgumentException e) {
+                // No active checkout found, do nothing
+            }
+        }
+        return "book-details.html";
     }
 
     @PostMapping("/{isbn}/checkout")

@@ -1,9 +1,11 @@
 package com.example.libraq.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.libraq.model.Book;
 import com.example.libraq.model.CheckoutReceipt;
 import com.example.libraq.model.Users;
 
@@ -16,5 +18,7 @@ public interface CheckoutReceiptRepository extends JpaRepository<CheckoutReceipt
     List<CheckoutReceipt> findByBookISBN(Long bookISBN);
 
     List<CheckoutReceipt> findByReturnDateIsNull();
+
+    Optional<CheckoutReceipt> findByBookAndReturnDateIsNull(Book book);
 
 }

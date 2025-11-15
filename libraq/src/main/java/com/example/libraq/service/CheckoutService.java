@@ -50,4 +50,9 @@ public class CheckoutService {
     public List<CheckoutReceipt> getUserCheckouts(Users user) {
         return checkoutRepo.findByUser(user);
     }
+
+    public CheckoutReceipt getActiveCheckoutByBook(Book book) {
+        return checkoutRepo.findByBookAndReturnDateIsNull(book)
+                .orElseThrow(() -> new IllegalArgumentException("No active checkout found for the given book."));
+    }
 }

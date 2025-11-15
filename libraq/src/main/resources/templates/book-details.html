@@ -28,11 +28,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <span th:if="${book.available}" style="color: green;">Available</span>
                 <span th:if="${!book.available}" style="color: red;">Unavailable</span>
             </p>
-
-            <!-- Checkout section - different messages based on user status -->
-            <div th:if="${!book.available}">
-                <p style="color: red;">This book is currently unavailable.</p>
-            </div>
+            <p><span th:if="${!book.available and activeCheckout != null}" >
+                    Expected by <span th:text="${activeCheckout.dueDate}"></span>
+                </span>
+            </p>
             
             <div th:if="${book.available}">
                 <!-- RENTER: Show checkout button -->
