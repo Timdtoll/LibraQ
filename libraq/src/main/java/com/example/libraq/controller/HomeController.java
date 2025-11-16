@@ -47,13 +47,7 @@ public class HomeController {
         model.addAttribute("books", books);
         model.addAttribute("query", query);
 
-        // Login status
-        Users currentUser = (Users) session.getAttribute("currentUser");
-        boolean isLoggedIn = (currentUser != null);
-
-        model.addAttribute("currentUser", currentUser);
-        model.addAttribute("isLoggedIn", isLoggedIn);
-
+        
         return "index"; // Thymeleaf template name
     }
 }
