@@ -1,9 +1,11 @@
 package com.example.libraq.controller;
 
 import com.example.libraq.dto.RegistrationDto;
+
 import com.example.libraq.model.Renter;
 import com.example.libraq.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,8 +34,7 @@ public class RegistrationController {
 
     // Handle form submission
     @PostMapping
-    public String register(@Valid RegistrationDto dto, BindingResult result, Model model) {
-
+    public String register(@Valid RegistrationDto dto, BindingResult result, Model model, HttpSession session) {
         // 1) Bean Validation errors (NotBlank, Email, Size, etc.)
         if (result.hasErrors()) {
             model.addAttribute("dto", dto);
@@ -59,7 +60,11 @@ public class RegistrationController {
         Renter user = new Renter(dto.getName(), dto.getEmail(), dto.getPassword());
         userService.addUser(user);
 
-        // 5) On success, go to login
+        // 5) Automatically log in the user by putting them in the session
+        session.setAttribute("currentUser", user);
+
+        // 6) On success, go to home
         return "redirect:/home";
     }
+
 }

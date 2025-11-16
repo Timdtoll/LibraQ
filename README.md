@@ -75,6 +75,9 @@ We follow the Git Flow branching model to organize development and maintain a cl
 | User Name | sa |
 | Password |  |
 
+## Testing
+
+Some of the features require a user to log in. You can either register as a new user or use the credentials **email:** test@gmail.com and **password:** testpassword
 
 ## Authors
 - Taisia Zhizhina	
