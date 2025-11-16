@@ -1,5 +1,7 @@
 package com.example.libraq.service;
 
+import java.util.List;
+
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,8 +14,6 @@ import com.example.libraq.model.Librarian;
 import com.example.libraq.model.Renter;
 import com.example.libraq.model.Users;
 import com.example.libraq.repository.UserRepository;
-
-import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -38,6 +38,10 @@ public class UserService implements UserDetailsService {
 		return userRepo.findByName(name);
 	}
 
+	public Users getById(Long id) {
+		return userRepo.getById(id);
+	}
+ 
 	@Transactional
 	public void addUser(Users user) {
 		// Hash password before saving

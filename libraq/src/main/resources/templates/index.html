@@ -28,14 +28,15 @@
             </div>
 
             <!-- Navigation buttons -->
-            
-            <!-- Profile button: only when logged in -->
-            <button class="login-btn" type="button"
-                onclick="document.location.href='/profile'"
-                sec:authorize="isAuthenticated()">
-            Profile
-        </button>
 
+            <!-- Profile button: only when logged in, redirects to user details page -->
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                Profile
+            </button>
+
+            <!-- Login button: only when NOT logged in -->
             <button class="login-btn" type="button"
                     onclick="document.location.href='/login'"
                     sec:authorize="isAnonymous()">

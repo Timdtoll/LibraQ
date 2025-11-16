@@ -250,8 +250,6 @@ footer {
     background-color: #8E1616;
 }
 
-
-
 /* === Main Section Styling === */
 main {
     background-color: #E0DFD5;
@@ -616,6 +614,15 @@ section h2 {
     text-align: center;
     margin: 0.5rem 0 1rem 0;
     font-size: 1rem;
+}
+
+/* User Page Styling */
+.welcome-message {
+    text-align: left;
+    color: black;
+    display: inline;
+    font-size: 1.5em;
+    font-weight: strong;
 }
 
 /* Animation */

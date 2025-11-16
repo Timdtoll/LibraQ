@@ -8,6 +8,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "USERS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -32,7 +33,6 @@ public abstract class Users {
 	public Long getId() {
 		return id;
 	}
-
 
 	public String getName() {
 		return name;
