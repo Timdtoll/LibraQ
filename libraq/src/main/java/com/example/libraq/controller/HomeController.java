@@ -1,16 +1,11 @@
 package com.example.libraq.controller;
 
 import com.example.libraq.model.Book;
-
 import com.example.libraq.model.Genre;
-import com.example.libraq.service.BookService;
 import com.example.libraq.model.Users;
+import com.example.libraq.service.BookService;
 
-<<<<<<< HEAD
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-=======
->>>>>>> sprint/2
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
-
-
 
 @Controller
 public class HomeController {
@@ -39,8 +32,10 @@ public class HomeController {
             Model model) {
 
         List<Book> books;
+
         // Determine if search filters are applied
-        if ((query != null && !query.trim().isEmpty()) || (selectedGenres != null && !selectedGenres.isEmpty())) {
+        if ((query != null && !query.trim().isEmpty()) ||
+            (selectedGenres != null && !selectedGenres.isEmpty())) {
             books = bookService.searchBooks(query, selectedGenres);
         } else {
             books = bookService.getAllBooks();
@@ -52,6 +47,7 @@ public class HomeController {
         model.addAttribute("books", books);
         model.addAttribute("query", query);
 
+        // Login status
         Users currentUser = (Users) session.getAttribute("currentUser");
         boolean isLoggedIn = (currentUser != null);
 
