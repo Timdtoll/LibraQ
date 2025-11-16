@@ -8,13 +8,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.libraq.model.Librarian;
+import com.example.libraq.model.Renter;
 import com.example.libraq.model.Users;
 import com.example.libraq.repository.UserRepository;
 
 import java.util.List;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
 	private final UserRepository userRepo;
 	private final PasswordEncoder passwordEncoder;
@@ -44,6 +46,18 @@ public class UserService implements UserDetailsService{
 		userRepo.save(user);
 	}
 
+	/**
+	 * Quick helper to create a Librarian account.
+	 */
+	@Transactional
+	public void createLibrarian(String name, String email, String password) {
+		if (!findByEmail(email).isEmpty()) {
+			throw new IllegalArgumentException("Email already exists: " + email);
+		}
+		Librarian librarian = new Librarian(name, email, password);
+		addUser(librarian);
+	}
+
 	// Loads user details by email (username) for authentication
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -54,12 +68,19 @@ public class UserService implements UserDetailsService{
 		}
 
 		Users user = users.get(0);
-		
+		String role;
+		if (user instanceof Renter) {
+			role = "RENTER";
+		} else if (user instanceof Librarian) {
+			role = "LIBRARIAN";
+		} else {
+			role = "USER"; // Fallback (shouldn't happen)
+		}
 		// Build Spring Security UserDetails object
 		return User.builder()
-			.username(user.getEmail())
-			.password(user.getPassword()) // Already hashed from database
-			.roles("USER") // Add default role
-			.build();
+				.username(user.getEmail())
+				.password(user.getPassword()) // Already hashed from database
+				.roles(role) // Add default role
+				.build();
 	}
 }

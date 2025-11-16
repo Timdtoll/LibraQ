@@ -2,6 +2,7 @@ package com.example.libraq.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,8 +33,12 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
             // Configuring URL authorization rules
                 .authorizeHttpRequests( registry -> {
+                    
+                    registry.requestMatchers( HttpMethod.POST,"/books/*/checkout").hasRole("RENTER");
+
                     // No authentication required for these files
-                    registry.requestMatchers( "/register", "/login", "/styles.css", "/css/**", "/home", "/books", "/h2-console/**").permitAll();
+                    
+                    registry.requestMatchers( "/register", "/login", "/styles.css", "/css/**", "/home", "/books", "/books/*", "/h2-console/**", "/admin/**").permitAll();
                     // All other pages will require authentication
                     registry.anyRequest().authenticated();
                 })
@@ -42,6 +47,12 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/home")
+                        .permitAll()
+                )
+                // Logout configuration
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout=true")
                         .permitAll()
                 )
                 .build();

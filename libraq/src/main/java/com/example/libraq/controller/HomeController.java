@@ -6,14 +6,19 @@ import com.example.libraq.model.Genre;
 import com.example.libraq.service.BookService;
 import com.example.libraq.model.Users;
 
+<<<<<<< HEAD
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+>>>>>>> sprint/2
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 
 
@@ -22,7 +27,6 @@ public class HomeController {
 
     private final BookService bookService;
 
-    @Autowired
     public HomeController(BookService bookService) {
         this.bookService = bookService;
     }
@@ -56,5 +60,4 @@ public class HomeController {
 
         return "index"; // Thymeleaf template name
     }
-
 }
