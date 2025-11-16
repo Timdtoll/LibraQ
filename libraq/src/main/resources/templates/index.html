@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -84,3 +85,72 @@
     </footer>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>LibraQ</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>LibraQ</h1>
+        <!-- user profile/logout buttons will go in the header -->
+         <button class="login-btn" onclick="document.location.href='/login'">Login</button>
+    </header>
+
+    <div class="content-container">
+        <!-- Sidebar for Genre Filters -->
+        <aside class="genre-sidebar">
+            <h3>Filter by Genre</h3>
+            <form th:action="@{/home}" method="get">
+                <div class="checkbox-group">
+                    <label th:each="genre : ${genres}">
+                        <input type="checkbox" name="genres"
+                               th:value="${genre}"
+                               th:checked="${selectedGenres != null and selectedGenres.contains(genre)}"/>
+                        <span th:text="${genre.displayName}">Genre</span>
+                    </label>
+                </div>
+                <button type="submit" class="filter-btn">Apply Filter</button>
+            </form>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Search Bar for searching by author or by title-->
+            <div class="search-bar-container">
+                <form th:action="@{/home}" method="get" class="search-bar">
+                    <input type="text" name="query" placeholder="Search by title or author..."
+                           th:value="${query}" />
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
+            <!-- Book List/Search Results -->
+            <section>
+                <h2>Available Books</h2>
+
+                <div th:if="${#lists.isEmpty(books)}" class="no-books">
+                    <p>No books found.</p>
+                </div>
+
+                <div class="book-list" th:if="${!#lists.isEmpty(books)}">
+                    <div class="book-card" th:each="book : ${books}">
+                        <h3 th:text="${book.title}">Book Title</h3>
+                        <p><strong>Author:</strong> <span th:text="${book.author}">Author Name</span></p>
+                        <p><strong>Genre:</strong> <span th:text="${book.genre.displayName}">Genre</span></p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 LibraQ Library System</p>
+    </footer>
+</body>
+</html>
+>>>>>>> 3896071bbaa8ab511b8b751abf6c9159f8b7d0b6

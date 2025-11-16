@@ -98,6 +98,22 @@ section h2 {
     text-align: center;
 }
 
+/* login button */
+button.login-btn {
+    padding: 0.7rem 1.2rem;
+    background-color: #731010;
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button.login-btn:hover{
+    background-color: #D84040;
+}
+
 /* Book List */
 .book-list {
     display: grid;
@@ -223,6 +239,8 @@ footer {
 .filter-btn:hover {
     background-color: #8E1616;
 }
+
+
 
 /* === Main Section Styling === */
 main {
