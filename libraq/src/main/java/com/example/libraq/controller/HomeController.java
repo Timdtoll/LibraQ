@@ -1,17 +1,15 @@
 package com.example.libraq.controller;
 
-import com.example.libraq.model.Book;
-import com.example.libraq.model.Genre;
-import com.example.libraq.service.BookService;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Optional;
+import com.example.libraq.model.Book;
+import com.example.libraq.model.Genre;
+import com.example.libraq.service.BookService;
 
 @Controller
 public class HomeController {
