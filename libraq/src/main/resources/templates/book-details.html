@@ -8,9 +8,41 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </head>
 <body>
     <header>
-        <h1><a href="/home" class="logo-link">LibraQ</a></h1>
-        <button class="login-btn" onclick="document.location.href='/login'">Login</button>
-    </header>
+        <h1><a th:href="@{/home}" class="logo-link">LibraQ</a></h1>
+
+        <div class="header-right">
+            <div class="header-status">
+
+                <div sec:authorize="isAuthenticated()">
+                    <span>Signed in as </span>
+                    <strong><span sec:authentication="name">User</span></strong>
+                </div>
+
+                <!-- When user is NOT logged in -->
+                <div sec:authorize="isAnonymous()">
+                    <span>You are not signed in.</span>
+                </div>
+
+            </div>
+
+
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                Profile
+            </button>
+
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/login'"
+                    sec:authorize="isAnonymous()">
+                Login
+            </button>
+
+            <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <button type="submit" class="login-btn">Logout</button>
+            </form>
+        </div>
+     </header>
 
     <main class="book-details-page">
         <div class="search-bar-container">
