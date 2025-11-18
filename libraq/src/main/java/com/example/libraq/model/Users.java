@@ -8,6 +8,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "USERS")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -33,7 +34,6 @@ public abstract class Users {
 		return id;
 	}
 
-
 	public String getName() {
 		return name;
 	}
@@ -44,5 +44,9 @@ public abstract class Users {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }

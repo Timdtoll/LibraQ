@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>udetails | LibraQ</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+     <header>
+        <h1><a th:href="@{/home}" class="logo-link">LibraQ</a></h1>
+
+        <div class="header-right">
+            <div class="header-status">
+
+                <div sec:authorize="isAuthenticated()">
+                    <span>Signed in as </span>
+                    <strong><span sec:authentication="name">User</span></strong>
+                </div>
+
+                <!-- When user is NOT logged in -->
+                <div sec:authorize="isAnonymous()">
+                    <span>You are not signed in.</span>
+                </div>
+
+            </div>
+
+
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                Profile
+            </button>
+
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/login'"
+                    sec:authorize="isAnonymous()">
+                Login
+            </button>
+
+            <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <button type="submit" class="login-btn">Logout</button>
+            </form>
+        </div>
+     </header>
+
+    <!-- Main Content -->
+     
+     <div class="content-container">
+        <!-- Welcome User -->
+        <div><strong><welcome-message>Welcome <span th:text="${user.name}"></span></welcome-message></strong></div>
+        <!-- Checked out books-->
+        <main>
+            <section>
+                <h2>Checked Out books:</h2>
+                <div th:if="${#lists.isEmpty(checkouts)}" class="no-books">
+                    <p>No books checked out.</p>
+                </div>
+                <div class="book-list" th:if="${!#lists.isEmpty(checkouts)}">
+                        <div class="book-card" th:each="checkout : ${checkouts}">
+                            <h3 th:text="${checkout.book.title}">Book Title</h3>
+                            <p><strong>Author:</strong> <span th:text="${checkout.book.author}">Author Name</span></p>
+                            <p><strong>Genre:</strong> <span th:text="${checkout.book.genre.displayName}">Genre</span></p>
+                            <p><strong>Checked Out:</strong> <span th:text="${checkout.checkoutDate}">Checkout Date</span></p>
+                            <p><strong>Due:</strong> <span th:text="${checkout.dueDate}">Due Date</span></p>
+
+                            <!-- Currently does not work due to date comparison issues
+                            <p th:if="${#temporals.isBefore(#temporals.createNow(), checkout.dueDate)}" style="color: green;">Due Date</p>
+                            <p th:if="${#temporals.isAfter(#temporals.createNow(), checkout.dueDate)}" style="color: red;">Due Date</p>
+                            -->
+                    </div>
+                </div>
+            </section>
+        </main>
+     </div>"
+     
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 LibraQ Library System</p>
+    </footer>
+</body>
+</html>

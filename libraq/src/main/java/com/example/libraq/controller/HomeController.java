@@ -1,36 +1,39 @@
 package com.example.libraq.controller;
 
-import com.example.libraq.model.Book;
-import com.example.libraq.model.Genre;
-import com.example.libraq.service.BookService;
+import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import com.example.libraq.model.Book;
+import com.example.libraq.model.Genre;
+import com.example.libraq.model.Users;
+import com.example.libraq.service.BookService;
 
 @Controller
 public class HomeController {
 
     private final BookService bookService;
 
-    @Autowired
     public HomeController(BookService bookService) {
         this.bookService = bookService;
     }
 
-    @GetMapping("/home")
+    @GetMapping({"/", "/home"})
     public String home(
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "genres", required = false) List<Genre> selectedGenres,
+            HttpSession session,
             Model model) {
 
         List<Book> books;
+
         // Determine if search filters are applied
-        if ((query != null && !query.trim().isEmpty()) || (selectedGenres != null && !selectedGenres.isEmpty())) {
+        if ((query != null && !query.trim().isEmpty()) ||
+            (selectedGenres != null && !selectedGenres.isEmpty())) {
             books = bookService.searchBooks(query, selectedGenres);
         } else {
             books = bookService.getAllBooks();
@@ -44,5 +47,4 @@ public class HomeController {
 
         return "index"; // Thymeleaf template name
     }
-
 }
