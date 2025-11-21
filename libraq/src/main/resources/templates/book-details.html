@@ -81,6 +81,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     <p>Please <a th:href="@{/login}">login as a Renter</a> to checkout this book.</p>
                 </div>
             </div>
+            <div th:if="${!book.available}">
+                <!-- RENTER & book is unavailable: Show reserve button -->
+                <div sec:authorize="hasRole('RENTER')">
+                    <button class="checkout-btn"
+                            th:if="${!book.available}">
+                        Reserve Book
+                    </button>
+                </div>
+            </div>
         </section>
     </main>
 
