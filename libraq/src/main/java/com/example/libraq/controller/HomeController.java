@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.libraq.model.Book;
 import com.example.libraq.model.Genre;
-import com.example.libraq.model.Users;
 import com.example.libraq.service.BookService;
 
 @Controller

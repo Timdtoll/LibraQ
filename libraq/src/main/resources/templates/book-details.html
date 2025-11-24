@@ -85,14 +85,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <!-- RENTER & book is unavailable: Show reserve button -->
                 <div sec:authorize="hasRole('RENTER')">
                     <button class="checkout-btn"
-                            th:if="${!book.available}">
+                            th:if="${!book.available}"
+                            th:attr="data-title=${book.title}, data-author=${book.author}, data-isbn=${book.ISBN}"
+                            onclick="openReservePopup(this)">
                         Reserve Book
                     </button>
+
                 </div>
             </div>
         </section>
     </main>
-
+    <!-- Checkout Popups: -->
     <!-- Confirmation Popup (before checkout is submitted) -->
     <div id="confirmPopup" class="popup-overlay" style="display:none;">
         <div class="popup-box">
@@ -108,24 +111,47 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         </div>
     </div>
 
-    <!-- Success / Error Popup (after book has been attempted to be checked out) -->
+    <!-- Reserve Popups: -->
+     <!-- Reserve Confirmation Popup -->
+    <div id="reservePopup" class="popup-overlay" style="display:none;">
+        <div class="popup-box">
+            <button class="popup-close" onclick="closePopup('reservePopup')">×</button>
+
+            <h3>Confirm Reservation</h3>
+            <p id="reserveMessage"></p>
+
+            <div class="popup-actions">
+                <form id="reserveForm" method="post">
+                    <button type="submit" class="popup-btn">Confirm</button>
+                </form>
+                <button type="button" class="popup-btn cancel" onclick="closePopup('reservePopup')">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <!-- Shared popup: -->
+    <!-- Success / Error Popup (after book has been attempted to be checked out or reserved) -->
     <div id="resultPopup" class="popup-overlay"
-        th:if="${checkoutSuccess != null or checkoutError != null}" style="display:flex;">
+     th:if="${checkoutSuccess != null or checkoutError != null or reservationSuccess != null or reservationError != null}"
+     style="display:flex;">
         <div class="popup-box">
             <button class="popup-close" onclick="closePopup('resultPopup')">×</button>
 
-            <h3 th:if="${checkoutSuccess != null}" class="success-title">Success</h3>
-            <h3 th:if="${checkoutError != null}" class="error-title">Error</h3>
-            
+            <h3 th:if="${checkoutSuccess != null or reservationSuccess != null}" class="success-title">Success</h3>
+            <h3 th:if="${checkoutError != null or reservationError != null}" class="error-title">Error</h3>
+
             <p th:if="${checkoutSuccess != null}" th:text="${checkoutSuccess}"></p>
-            <p th:if="${checkoutError != null}" th:text="${checkoutError}"></p> 
+            <p th:if="${checkoutError != null}" th:text="${checkoutError}"></p>
+
+            <p th:if="${reservationSuccess != null}" th:text="${reservationSuccess}"></p>
+            <p th:if="${reservationError != null}" th:text="${reservationError}"></p>
+ 
 
             <div class="popup-actions">
                 <button type="button" class="popup-btn" onclick="window.location.href='/home'">Take Me Home</button>
             </div>
         </div>
     </div>
-
+    
 
 
     <footer>
@@ -150,6 +176,25 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
             document.getElementById('confirmPopup').style.display = 'flex';
         }
+
+        function openReservePopup(button) {
+            const title = button.getAttribute('data-title');
+            const author = button.getAttribute('data-author');
+            const isbn = button.getAttribute('data-isbn');
+
+            const msg = `Reserve "${title}" by ${author}? 
+        You will be notified when it becomes available.`;
+
+            document.getElementById('reserveMessage').innerText = msg;
+
+            // Point form to reservation endpoint
+            const form = document.getElementById('reserveForm');
+            form.action = `/books/${isbn}/reserve`;
+
+            // Show popup
+            document.getElementById('reservePopup').style.display = 'flex';
+        }
+
 
         function closePopup(id) {
             document.getElementById(id).style.display = 'none';
