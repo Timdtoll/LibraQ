@@ -21,4 +21,6 @@ public interface CheckoutReceiptRepository extends JpaRepository<CheckoutReceipt
 
     Optional<CheckoutReceipt> findByBookAndReturnDateIsNull(Book book);
 
+    Optional<CheckoutReceipt> findById(Long id);
+
 }
