@@ -36,7 +36,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </div>
             <div sec:authorize="hasRole('LIBRARIAN')"> 
                 <button class="login-btn" type="button"
-                    onclick="document.location.href='/userdetails'"
+                    onclick="document.location.href='/librarianpage'"
                     sec:authorize="isAuthenticated()">
                     Console
                 </button>
