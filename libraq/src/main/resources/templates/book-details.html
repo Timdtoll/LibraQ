@@ -65,6 +65,33 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 </span>
             </p>
             
+            <!-- LIBRARIAN: Show who has the book checked out -->
+<div th:if="${!book.available and activeCheckout != null}"
+     sec:authorize="hasRole('LIBRARIAN')"
+     class="borrower-info">
+
+    <h3>Current borrower</h3>
+
+    <p>
+        Name:
+        <span th:text="${activeCheckout.user.name}"></span>
+    </p>
+
+    <p>
+    	Email:
+    	<a th:href="'mailto:' + ${activeCheckout.user.email}"
+       	th:text="${activeCheckout.user.email}">
+    </a>
+</p>
+
+    <p>
+        Due date:
+        <span th:text="${activeCheckout.dueDate}"></span>
+    </p>
+
+</div>
+            
+            
             <div th:if="${book.available}">
                 <!-- RENTER: Show checkout button -->
                 <div sec:authorize="hasRole('RENTER')">
