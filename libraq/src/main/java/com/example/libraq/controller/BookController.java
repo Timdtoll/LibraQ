@@ -67,4 +67,21 @@ public class BookController {
 
         return "redirect:/books/" + isbn;
     }
+    
+    @PreAuthorize("hasRole('LIBRARIAN')")
+    @PostMapping("/{isbn}/checkin")
+    public String checkInBook(@PathVariable Long isbn, RedirectAttributes redirectAttributes) {
+        try {
+            Book book = bookService.getBookByISBN(isbn);
+            checkoutService.checkInBook(book);
+
+            redirectAttributes.addFlashAttribute("checkinSuccess",
+                    "Book \"" + book.getTitle() + "\" has been checked in and is now available.");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("checkinError", e.getMessage());
+        }
+
+        return "redirect:/books/" + isbn;
+    }
+
 }
