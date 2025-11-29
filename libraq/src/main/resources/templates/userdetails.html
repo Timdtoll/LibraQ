@@ -58,6 +58,31 @@
      <div class="content-container">
         <!-- Welcome User -->
         <div><strong><welcome-message>Welcome <span th:text="${user.name}"></span></welcome-message></strong></div>
+        
+        <!-- Action Buttons -->
+        <div style="margin: 20px 0;">
+            <!-- Librarian Actions -->
+            <button class="login-btn" type="button" 
+                    onclick="document.location.href='/book-requests/manage'"
+                    sec:authorize="hasRole('LIBRARIAN')"
+                    style="margin-right: 10px; background-color: #007bff; color: white;">
+                Manage Book Requests
+            </button>
+            
+            <!-- Renter Actions -->
+            <button class="login-btn" type="button" 
+                    onclick="document.location.href='/book-requests/'"
+                    sec:authorize="hasRole('RENTER')"
+                    style="margin-right: 10px;">
+                Request a Book
+            </button>
+            <button class="login-btn" type="button" 
+                    onclick="document.location.href='/book-requests/my-requests'"
+                    sec:authorize="hasRole('RENTER')">
+                My Requests
+            </button>
+        </div>
+        
         <!-- Checked out books-->
         <main>
             <div sec:authorize="hasRole('RENTER')">
