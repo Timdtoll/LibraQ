@@ -29,6 +29,14 @@
 
             <!-- Navigation buttons -->
 
+            <!-- Manage Requests button: only for librarians -->
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/book-requests/manage'"
+                    sec:authorize="hasRole('LIBRARIAN')"
+                    style="margin-right: 10px;">
+                Manage Requests
+            </button>
+
             <!-- Profile button: only when logged in, redirects to user details page -->
             <button class="login-btn" type="button"
                     onclick="document.location.href='/userdetails'"

@@ -51,6 +51,15 @@
         
         <!-- Action Buttons -->
         <div style="margin: 20px 0;">
+            <!-- Librarian Actions -->
+            <button class="login-btn" type="button" 
+                    onclick="document.location.href='/book-requests/manage'"
+                    sec:authorize="hasRole('LIBRARIAN')"
+                    style="margin-right: 10px; background-color: #007bff; color: white;">
+                Manage Book Requests
+            </button>
+            
+            <!-- Renter Actions -->
             <button class="login-btn" type="button" 
                     onclick="document.location.href='/book-requests/'"
                     sec:authorize="hasRole('RENTER')"

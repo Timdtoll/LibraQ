@@ -1,8 +1,10 @@
 package com.example.libraq.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.libraq.dto.BookRequestDto;
 import com.example.libraq.model.BookRequest;
+import com.example.libraq.model.RequestStatus;
 import com.example.libraq.model.Users;
 import com.example.libraq.service.BookRequestService;
 import com.example.libraq.service.UserService;
@@ -34,8 +37,48 @@ public class BookRequestController {
 
     @GetMapping("/manage")
     @PreAuthorize("hasRole('LIBRARIAN')")
-    public String getAllRequests(Model model) {
-        model.addAttribute("requests", bookRequestService.getAllRequests());
+    public String getAllRequests(
+            @RequestParam(value = "status", required = false) String statusFilter,
+            Model model) {
+        
+        // Get all requests for statistics
+        List<BookRequest> allRequests = bookRequestService.getAllRequests();
+        
+        // Calculate statistics (always show all counts)
+        long pendingCount = allRequests.stream()
+            .filter(r -> r.getStatus().name().equals("PENDING"))
+            .count();
+        long approvedCount = allRequests.stream()
+            .filter(r -> r.getStatus().name().equals("APPROVED"))
+            .count();
+        long rejectedCount = allRequests.stream()
+            .filter(r -> r.getStatus().name().equals("REJECTED"))
+            .count();
+        
+        // Filter requests by status if filter is provided
+        List<BookRequest> filteredRequests;
+        if (statusFilter != null && !statusFilter.isEmpty() && !statusFilter.equals("ALL")) {
+            try {
+                RequestStatus status = RequestStatus.valueOf(statusFilter.toUpperCase());
+                filteredRequests = bookRequestService.getRequestsByStatus(status);
+            } catch (IllegalArgumentException e) {
+                // Invalid status, show all
+                filteredRequests = allRequests;
+                statusFilter = null;
+            }
+        } else {
+            // Show all requests
+            filteredRequests = allRequests;
+            statusFilter = "ALL";
+        }
+        
+        model.addAttribute("requests", filteredRequests);
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("approvedCount", approvedCount);
+        model.addAttribute("rejectedCount", rejectedCount);
+        model.addAttribute("totalCount", allRequests.size());
+        model.addAttribute("activeFilter", statusFilter); // For highlighting active filter
+        
         return "book-requests.html";
     }
 
@@ -72,10 +115,28 @@ public class BookRequestController {
 
    
     @PostMapping("/{id}/approve")
+    @PreAuthorize("hasRole('LIBRARIAN')")
     public String approveRequest(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-        BookRequest bookRequest = bookRequestService.getById(id);
-        bookRequestService.approveRequest(bookRequest);
-        redirectAttributes.addFlashAttribute("success", "Book request approved successfully");
+        try {
+            BookRequest bookRequest = bookRequestService.getById(id);
+            bookRequestService.approveRequest(bookRequest);
+            redirectAttributes.addFlashAttribute("success", "Book request approved successfully!");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", "Request not found: " + e.getMessage());
+        }
+        return "redirect:/book-requests/manage";
+    }
+
+    @PostMapping("/{id}/reject")
+    @PreAuthorize("hasRole('LIBRARIAN')")
+    public String rejectRequest(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            BookRequest bookRequest = bookRequestService.getById(id);
+            bookRequestService.rejectRequest(bookRequest);
+            redirectAttributes.addFlashAttribute("success", "Book request rejected successfully.");
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("error", "Request not found: " + e.getMessage());
+        }
         return "redirect:/book-requests/manage";
     }
 
