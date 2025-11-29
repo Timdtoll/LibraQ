@@ -26,11 +26,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </div>
 
 
-            <button class="login-btn" type="button"
+            <!-- Profile button: only when logged in, redirects to user details page if renter, console if librarian-->
+            <div sec:authorize="hasRole('RENTER')"> 
+                <button class="login-btn" type="button"
                     onclick="document.location.href='/userdetails'"
                     sec:authorize="isAuthenticated()">
-                Profile
-            </button>
+                    Profile
+                </button>
+            </div>
+            <div sec:authorize="hasRole('LIBRARIAN')"> 
+                <button class="login-btn" type="button"
+                    onclick="document.location.href='/librarianpage'"
+                    sec:authorize="isAuthenticated()">
+                    Console
+                </button>
+            </div>
 
             <button class="login-btn" type="button"
                     onclick="document.location.href='/login'"

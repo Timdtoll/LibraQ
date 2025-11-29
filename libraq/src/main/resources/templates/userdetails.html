@@ -25,11 +25,21 @@
             </div>
 
 
-            <button class="login-btn" type="button"
+            <!-- Profile button: only when logged in, redirects to user details page if renter, console if librarian-->
+            <div sec:authorize="hasRole('RENTER')"> 
+                <button class="login-btn" type="button"
                     onclick="document.location.href='/userdetails'"
                     sec:authorize="isAuthenticated()">
-                Profile
-            </button>
+                    Profile
+                </button>
+            </div>
+            <div sec:authorize="hasRole('LIBRARIAN')"> 
+                <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                    Console
+                </button>
+            </div>
 
             <button class="login-btn" type="button"
                     onclick="document.location.href='/login'"
@@ -75,12 +85,13 @@
         
         <!-- Checked out books-->
         <main>
-            <section>
-                <h2>Checked Out books:</h2>
-                <div th:if="${#lists.isEmpty(checkouts)}" class="no-books">
-                    <p>No books checked out.</p>
-                </div>
-                <div class="book-list" th:if="${!#lists.isEmpty(checkouts)}">
+            <div sec:authorize="hasRole('RENTER')">
+                <section>
+                    <h2>Checked Out books:</h2>
+                    <div th:if="${#lists.isEmpty(checkouts)}" class="no-books">
+                        <p>No books checked out.</p>
+                    </div>
+                    <div class="book-list" th:if="${!#lists.isEmpty(checkouts)}">
                         <div class="book-card" th:each="checkout : ${checkouts}">
                             <h3 th:text="${checkout.book.title}">Book Title</h3>
                             <p><strong>Author:</strong> <span th:text="${checkout.book.author}">Author Name</span></p>
@@ -91,10 +102,16 @@
                             <!-- Currently does not work due to date comparison issues
                             <p th:if="${#temporals.isBefore(#temporals.createNow(), checkout.dueDate)}" style="color: green;">Due Date</p>
                             <p th:if="${#temporals.isAfter(#temporals.createNow(), checkout.dueDate)}" style="color: red;">Due Date</p>
-                            -->
+                             -->
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
+            <div sec:authorize="hasRole('LIBRARIAN')">
+                <h2>
+                    A Librarian can see this
+                </h2>
+            </div>
         </main>
      </div>"
      
