@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	public Users getById(Long id) {
-		return userRepo.getById(id);
+		return userRepo.getReferenceById(id);
 	}
  
 	@Transactional

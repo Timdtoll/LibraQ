@@ -4,6 +4,7 @@ import com.example.libraq.model.*;
 import com.example.libraq.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,16 +45,17 @@ public class ReservationService {
         return !reservationRepo.findByBookOrderByCreatedDateAsc(book).isEmpty();
     }
 
-    // Check if book is reserved by any user except the logged-in user
-    public boolean isReservedByAnotherUser(Book book, Users user) {
-        Reservation next = getNextActiveReservation(book);
-
-        return next != null && !next.getUser().getId().equals(user.getId());
-    }
-
     // Check if user has reserved this book
     public boolean userHasReservation(Book book, Users user) {
         return !reservationRepo.findByBookAndUser(book, user).isEmpty();
+    }
+
+    // Check if user has a HOLD_READY reservation for this book
+    public boolean userHasReadyReservation(Book book, Users user) {
+        List<Reservation> list = reservationRepo.findByBookAndUserAndStatus(
+                book, user, ReservationStatus.HOLD_READY);
+
+        return !list.isEmpty();
     }
 
     // Change first reservation to HOLD_READY when book is returned
@@ -73,5 +75,58 @@ public class ReservationService {
     public void fulfillReservation(Reservation res) {
         res.setStatus(ReservationStatus.FULFILLED);
         reservationRepo.save(res);
+    }
+
+    @Transactional
+    public Reservation processQueueAfterExpiration(Book book) {
+        // Check for any ACTIVE reservations
+        Reservation next = getNextActiveReservation(book);
+        if (next == null) return null;
+
+        // Promote to HOLD_READY
+        next.setStatus(ReservationStatus.HOLD_READY);
+        next.setHoldExpirationDate(LocalDateTime.now().plusDays(3));
+        reservationRepo.save(next);
+
+        return next;
+    }
+
+    @Transactional
+    public void handleBookReturn(Book book) {
+
+        // Try to process holds
+        Reservation activated = processQueueAfterExpiration(book);
+
+        if (activated != null) {
+            // book is on hold for next user, so not available
+            book.setAvailable(false);
+            return;
+        }
+
+        // if no reservations then book becomes fully available
+        book.setAvailable(true);
+    }
+
+
+    @Transactional
+    @Scheduled(fixedRate =  60 * 60 * 1000) // runs every hour
+    public void expireOldHolds() {
+
+        // Get all reservations that are HOLD_READY (waiting for pickup)
+        List<Reservation> holds = 
+            reservationRepo.findByStatus(ReservationStatus.HOLD_READY);
+
+        for (Reservation res : holds) {
+
+            // If hold has expired
+            if (res.getHoldExpirationDate().isBefore(LocalDateTime.now())) {
+
+                res.setStatus(ReservationStatus.EXPIRED);
+                reservationRepo.save(res);
+
+                // After expiring, activate the next person in line (if any)
+                activateNextReservation(res.getBook());
+            }
+        }
     }
 }

@@ -56,11 +56,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <h2 th:text="${book.title}"></h2>
             <p>Author: <span th:text="${book.author}"></span></p>
             <p>Genre: <span th:text="${book.genre.displayName}"></span></p>
+
             <p>Status:
-                <span th:if="${book.available}" style="color: green;">Available</span>
-                <span th:if="${!book.available}" style="color: red;">Unavailable</span>
+                <!-- Renter with HOLD_READY reservation sees book as available -->
+                <span th:if="${holdReadyForUser}" style="color: green;">Available (On Hold for You)</span>
+
+                <!-- Normal availability -->
+                <span th:if="${book.available and !holdReadyForUser}" style="color: green;">Available</span>
+
+                <!-- Book is on hold for someone -->
+                <span th:if="${!book.available and onHold and !holdReadyForUser}">On Hold</span>
+
+                <!-- Regular unavailable -->
+                <span th:if="${!book.available and !onHold}" style="color: red;">Unavailable</span>
             </p>
-            <p><span th:if="${!book.available and activeCheckout != null}" >
+
+            <p>
+                <span th:if="${!book.available and activeCheckout != null}">
                     Expected by <span th:text="${activeCheckout.dueDate}"></span>
                 </span>
             </p>
@@ -91,12 +103,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 </div>
             
-            
-            <div th:if="${book.available}">
-                <!-- RENTER: Show checkout button -->
+            <!-- Book is available or on hold for current user -->
+            <div th:if="${book.available or holdReadyForUser}">
                 <div sec:authorize="hasRole('RENTER')">
                     <button class="checkout-btn"
-                            th:if="${book.available}"
                             th:attr="data-title=${book.title}, data-author=${book.author}, data-isbn=${book.ISBN}"
                             onclick="openConfirmPopup(this)">
                         Check Out
@@ -108,21 +118,19 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     <p>Please <a th:href="@{/login}">login as a Renter</a> to checkout this book.</p>
                 </div>
             </div>
-            <div th:if="${!book.available}">
-                <!-- RENTER & book is unavailable: Show reserve button -->
+
+            <!-- Book is unavailable-->
+            <div th:if="${!book.available and !holdReadyForUser}">
                 <div sec:authorize="hasRole('RENTER')">
                     <button class="checkout-btn"
-                            th:if="${!book.available}"
                             th:attr="data-title=${book.title}, data-author=${book.author}, data-isbn=${book.ISBN}"
                             onclick="openReservePopup(this)">
                         Reserve Book
                     </button>
-
                 </div>
             </div>
-            
             <!-- LIBRARIAN: Show check-in button when book is unavailable -->
-<div th:if="${!book.available}" sec:authorize="hasRole('LIBRARIAN')">
+<div th:if="${!book.available and !onHold}" sec:authorize="hasRole('LIBRARIAN')">
     <form th:action="@{'/books/' + ${book.ISBN} + '/checkin'}" method="post">
         <button type="submit" class="checkout-btn">
             Check In
@@ -133,8 +141,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
              
         </section>
     </main>
-    <!-- Checkout Popups: -->
-    <!-- Confirmation Popup (before checkout is submitted) -->
+
+    <!-- POPUPS -------------------------------------------------------->
+    <!-- Checkout confirmation -->
     <div id="confirmPopup" class="popup-overlay" style="display:none;">
         <div class="popup-box">
             <button class="popup-close" onclick="closePopup('confirmPopup')">×</button>
@@ -149,8 +158,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         </div>
     </div>
 
-    <!-- Reserve Popups: -->
-     <!-- Reserve Confirmation Popup -->
+    <!-- Reserve confirmation -->
     <div id="reservePopup" class="popup-overlay" style="display:none;">
         <div class="popup-box">
             <button class="popup-close" onclick="closePopup('reservePopup')">×</button>
@@ -166,40 +174,33 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             </div>
         </div>
     </div>
-    <!-- Shared popup: -->
-    <!-- Success / Error Popup (after book has been attempted to be checked out or reserved) -->
+
+    <!-- Shared result popup -->
     <div id="resultPopup" class="popup-overlay"
-     th:if="${checkoutSuccess != null or checkoutError != null or reservationSuccess != null or reservationError != null}"
-     style="display:flex;">
+        th:if="${checkoutSuccess != null or checkoutError != null or reservationSuccess != null or reservationError != null or checkinSuccess != null or checkinError != null}"
+        style="display:flex;">
         <div class="popup-box">
             <button class="popup-close" onclick="closePopup('resultPopup')">×</button>
 
-        <!-- Heading -->
-        <h3 th:if="${checkoutSuccess != null or checkinSuccess != null}" class="success-title">Success</h3>
-        <h3 th:if="${checkoutError != null or checkinError != null}" class="error-title">Error</h3>
+            <!-- Heading -->
+            <h3 th:if="${checkoutSuccess != null or reservationSuccess != null or checkinSuccess != null}" class="success-title">Success</h3>
+            <h3 th:if="${checkoutError != null or reservationError != null or checkinError != null}" class="error-title">Error</h3>
 
-        <!-- Messages -->
-        <p th:if="${checkoutSuccess != null}" th:text="${checkoutSuccess}"></p>
-        <p th:if="${checkoutError != null}" th:text="${checkoutError}"></p>
-        <p th:if="${checkinSuccess != null}" th:text="${checkinSuccess}"></p>
-        <p th:if="${checkinError != null}" th:text="${checkinError}"></p>
-            <h3 th:if="${checkoutSuccess != null or reservationSuccess != null}" class="success-title">Success</h3>
-            <h3 th:if="${checkoutError != null or reservationError != null}" class="error-title">Error</h3>
-
+            <!-- Messages -->
             <p th:if="${checkoutSuccess != null}" th:text="${checkoutSuccess}"></p>
             <p th:if="${checkoutError != null}" th:text="${checkoutError}"></p>
 
             <p th:if="${reservationSuccess != null}" th:text="${reservationSuccess}"></p>
             <p th:if="${reservationError != null}" th:text="${reservationError}"></p>
- 
 
-        <div class="popup-actions">
-            <button type="button" class="popup-btn" onclick="window.location.href='/home'">Take Me Home</button>
+            <p th:if="${checkinSuccess != null}" th:text="${checkinSuccess}"></p>
+            <p th:if="${checkinError != null}" th:text="${checkinError}"></p>
+
+            <div class="popup-actions">
+                <button type="button" class="popup-btn" onclick="window.location.href='/home'">Take Me Home</button>
+            </div>
         </div>
     </div>
-</div>
-    
-
 
 
     <footer>
@@ -214,14 +215,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
             const dueDate = new Date();
             dueDate.setDate(dueDate.getDate() + 14);
-            const formattedDate = dueDate.toLocaleDateString();
+            const formatted = dueDate.toLocaleDateString();
 
-            const msg = `Do you want to check out "${title}" by ${author}? \nIt will be due on ${formattedDate}.`;
-            document.getElementById('confirmMessage').innerText = msg;
+            document.getElementById('confirmMessage').innerText =
+                `Do you want to check out "${title}" by ${author}? It will be due on ${formatted}.`;
 
-            const form = document.getElementById('checkoutForm');
-            form.action = `/books/${isbn}/checkout`;
-
+            document.getElementById('checkoutForm').action = `/books/${isbn}/checkout`;
             document.getElementById('confirmPopup').style.display = 'flex';
         }
 
@@ -230,16 +229,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             const author = button.getAttribute('data-author');
             const isbn = button.getAttribute('data-isbn');
 
-            const msg = `Reserve "${title}" by ${author}? 
-        You will be notified when it becomes available.`;
+            document.getElementById('reserveMessage').innerText =
+                `Reserve "${title}" by ${author}? The book will be on hold for you when it becomes available.`;
 
-            document.getElementById('reserveMessage').innerText = msg;
-
-            // Point form to reservation endpoint
-            const form = document.getElementById('reserveForm');
-            form.action = `/books/${isbn}/reserve`;
-
-            // Show popup
+            document.getElementById('reserveForm').action = `/books/${isbn}/reserve`;
             document.getElementById('reservePopup').style.display = 'flex';
         }
 

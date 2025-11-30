@@ -36,7 +36,7 @@ public class BookController {
     }
 
     @GetMapping("/{isbn}")
-    public String viewBook(@PathVariable Long isbn, Model model) {
+    public String viewBook(@PathVariable Long isbn, Model model, Principal principal) {
         Optional<Book> bookOpt = bookService.findByISBN(isbn);
         if (bookOpt.isEmpty()) {
             return "redirect:/?error=bookNotFound";
@@ -50,6 +50,18 @@ public class BookController {
                 // No active checkout found, do nothing
             }
         }
+        
+        Users user = null;
+        if (principal != null) {
+            user = userService.findByEmail(principal.getName()).get(0);
+        }
+
+        boolean onHold = reservationService.hasAnyReservations(book);
+        model.addAttribute("onHold", onHold);
+
+        boolean holdReadyForUser = principal != null &&
+                reservationService.userHasReadyReservation(book, user);
+        model.addAttribute("holdReadyForUser", holdReadyForUser);
         return "book-details.html";
     }
 

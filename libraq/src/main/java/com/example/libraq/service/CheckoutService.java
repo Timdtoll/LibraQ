@@ -1,12 +1,14 @@
 package com.example.libraq.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.libraq.model.Book;
 import com.example.libraq.model.CheckoutReceipt;
+import com.example.libraq.model.Reservation;
 import com.example.libraq.model.Users;
 import com.example.libraq.repository.BookRepository;
 import com.example.libraq.repository.CheckoutReceiptRepository;
@@ -37,7 +39,18 @@ public class CheckoutService {
     @Transactional
     public void checkoutBook(Users user, Book book) {
         if (!book.isAvailable()) {
-            throw new IllegalStateException("Book is not available.");
+            //check if user has a hold-ready reservation
+            Reservation hold = reservationService.getHoldReadyReservation(book);
+            //if the they dont have a hold and book is unavailable
+            if (hold == null || !hold.getUser().getId().equals(user.getId())) {
+                throw new IllegalStateException("Book is not available.");
+            }
+            //if their hold has expired
+            if (hold.getHoldExpirationDate().isBefore(LocalDateTime.now())) {
+                throw new IllegalStateException("Your hold has expired.");
+            }
+            //fulfill their hold otherwise
+            reservationService.fulfillReservation(hold);
         }
 
         CheckoutReceipt checkout = new CheckoutReceipt(user, book);
@@ -66,15 +79,6 @@ public class CheckoutService {
         return 0;
     }
 
-    // Will be useful when librarioan checks in books
-    @Transactional
-    public void returnBook(CheckoutReceipt checkout) {
-        checkout.setReturnDate(LocalDate.now());
-        checkout.getBook().setAvailable(true);
-        bookRepo.save(checkout.getBook());
-        checkoutRepo.save(checkout);
-    }
-
     // Will be needed to display user's checkout history
     public List<CheckoutReceipt> getUserCheckouts(Users user) {
         return checkoutRepo.findByUserAndReturnDateIsNull(user);
@@ -94,7 +98,8 @@ public class CheckoutService {
 
         activeCheckout.setReturnDate(LocalDate.now());
 
-        book.setAvailable(true);
+        // Activate reservation queue, and set availability accordingly
+        reservationService.handleBookReturn(book);
 
         bookRepo.save(book);
         checkoutRepo.save(activeCheckout);

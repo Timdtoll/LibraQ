@@ -23,4 +23,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     // Get all reservations ready for pickup (HOLD_READY)
     List<Reservation> findByStatus(ReservationStatus status);
+
+    // Find reservation for specific user, book, and status
+    List<Reservation> findByBookAndUserAndStatus(Book book, Users user, ReservationStatus status);  
 }
