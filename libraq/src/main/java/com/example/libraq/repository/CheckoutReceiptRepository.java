@@ -23,4 +23,6 @@ public interface CheckoutReceiptRepository extends JpaRepository<CheckoutReceipt
 
     List<CheckoutReceipt> findByUserAndReturnDateIsNull(Users user);
 
+    Optional<CheckoutReceipt> findById(Long id);
+
 }

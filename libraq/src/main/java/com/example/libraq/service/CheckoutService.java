@@ -18,10 +18,20 @@ public class CheckoutService {
 
     private final CheckoutReceiptRepository checkoutRepo;
     private final BookRepository bookRepo;
+    private final int MAX_EXTENSIONS = 3;
+    private final ReservationService reservationService;
+    static public final int MAX_EXTENSIONS_ERROR_CODE = 409;
+    static public final int BOOK_RESERVED_CODE = 410;
 
-    public CheckoutService(CheckoutReceiptRepository checkoutRepo, BookRepository bookRepo) {
+    public CheckoutService(CheckoutReceiptRepository checkoutRepo, BookRepository bookRepo, ReservationService reservationService) {
         this.checkoutRepo = checkoutRepo;
         this.bookRepo = bookRepo;
+        this.reservationService = reservationService;
+    }
+
+    public CheckoutReceipt getCheckoutById(Long id) {
+        return checkoutRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No checkout found for the given ID."));
     }
 
     @Transactional
@@ -35,6 +45,25 @@ public class CheckoutService {
 
         bookRepo.save(book);
         checkoutRepo.save(checkout);
+    }
+
+    public int extendCheckout(CheckoutReceipt checkout) {
+        if (checkout.getReturnDate() != null) {
+            throw new IllegalStateException("Cannot extend a returned book.");
+        }
+
+        if (reservationService.hasAnyReservations(checkout.getBook())) {
+            return BOOK_RESERVED_CODE; //someone has reserved the book
+        }
+
+        if(checkout.getExtensionCount() >= MAX_EXTENSIONS) {
+            return MAX_EXTENSIONS_ERROR_CODE; //max extensions reached
+        }   
+
+        checkout.setDueDate(checkout.getDueDate().plusDays(14));
+        checkout.setExtensionCount(checkout.getExtensionCount() + 1);
+        checkoutRepo.save(checkout);
+        return 0;
     }
 
     // Will be useful when librarioan checks in books
