@@ -2,7 +2,6 @@ package com.example.libraq.controller;
 
 import java.util.List;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +24,6 @@ public class HomeController {
     public String home(
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "genres", required = false) List<Genre> selectedGenres,
-            HttpSession session,
             Model model) {
 
         List<Book> books;

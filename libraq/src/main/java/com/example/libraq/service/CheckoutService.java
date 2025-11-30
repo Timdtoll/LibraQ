@@ -48,11 +48,27 @@ public class CheckoutService {
 
     // Will be needed to display user's checkout history
     public List<CheckoutReceipt> getUserCheckouts(Users user) {
-        return checkoutRepo.findByUser(user);
+        return checkoutRepo.findByUserAndReturnDateIsNull(user);
     }
+
 
     public CheckoutReceipt getActiveCheckoutByBook(Book book) {
         return checkoutRepo.findByBookAndReturnDateIsNull(book)
                 .orElseThrow(() -> new IllegalArgumentException("No active checkout found for the given book."));
     }
+    
+    //CheckInBook Method
+    @Transactional
+    public void checkInBook(Book book) {
+        CheckoutReceipt activeCheckout = checkoutRepo.findByBookAndReturnDateIsNull(book)
+                .orElseThrow(() -> new IllegalArgumentException("This book is not currently checked out."));
+
+        activeCheckout.setReturnDate(LocalDate.now());
+
+        book.setAvailable(true);
+
+        bookRepo.save(book);
+        checkoutRepo.save(activeCheckout);
+    }
+
 }
