@@ -35,13 +35,13 @@
             <h2>My Book Requests</h2>
 
             <!-- Success Message -->
-            <div th:if="${success != null}" class="success-message" style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+            <div th:if="${success != null}" class="success-message">
                 <p th:text="${success}"></p>
             </div>
 
             <!-- Action Button -->
-            <div style="margin: 20px 0;">
-                <button class="login-btn" type="button" 
+            <div class="action-buttons">
+                <button class="btn-primary" type="button" 
                         onclick="document.location.href='/book-requests/'">
                     Request Another Book
                 </button>
@@ -64,16 +64,13 @@
                         <!-- Status Badge -->
                         <p>
                             <strong>Status:</strong> 
-                            <span th:if="${request.status.name() == 'PENDING'}" 
-                                  style="color: #856404; background-color: #fff3cd; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                            <span th:if="${request.status.name() == 'PENDING'}" class="status-badge pending">
                                 Pending
                             </span>
-                            <span th:if="${request.status.name() == 'APPROVED'}" 
-                                  style="color: #155724; background-color: #d4edda; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                            <span th:if="${request.status.name() == 'APPROVED'}" class="status-badge approved">
                                 ✓ Approved
                             </span>
-                            <span th:if="${request.status.name() == 'REJECTED'}" 
-                                  style="color: #721c24; background-color: #f8d7da; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                            <span th:if="${request.status.name() == 'REJECTED'}" class="status-badge rejected">
                                 ✗ Rejected
                             </span>
                         </p>

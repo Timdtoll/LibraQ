@@ -192,6 +192,14 @@ footer {
     background-color: #E0DFD5;
 }
 
+/* === Full-width container for pages without sidebar === */
+.full-width-container {
+    padding: 1.5rem 2rem;
+    background-color: #E0DFD5;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* === Genre Sidebar === */
 .genre-sidebar {
     background-color: #FFFFFF;
@@ -618,11 +626,192 @@ section h2 {
 
 /* User Page Styling */
 .welcome-message {
+    color: #1D1616;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+/* Standardized page headings */
+.full-width-container > main > h2,
+main > h2 {
+    color: #8E1616;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    font-size: 1.8rem;
     text-align: left;
-    color: black;
-    display: inline;
-    font-size: 1.5em;
-    font-weight: strong;
+}
+
+/* Section headings within main */
+.full-width-container section h2,
+main section h2 {
+    color: #8E1616;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+/* Standardized success/error messages */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #dc3545;
+}
+
+.success-message p,
+.error-message p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status-badge.pending {
+    color: #856404;
+    background-color: #fff3cd;
+}
+
+.status-badge.approved {
+    color: #155724;
+    background-color: #d4edda;
+}
+
+.status-badge.rejected {
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+/* Action buttons container */
+.action-buttons {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Stat boxes for filtering */
+.stat-box {
+    padding: 12px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.stat-box strong {
+    color: #1D1616;
+    margin-right: 5px;
+}
+
+.stat-box.all {
+    background-color: #d1ecf1;
+    border: 2px solid #007bff;
+}
+
+.stat-box.pending {
+    background-color: #fff3cd;
+    border: 2px solid #856404;
+}
+
+.stat-box.approved {
+    background-color: #d4edda;
+    border: 2px solid #155724;
+}
+
+.stat-box.rejected {
+    background-color: #f8d7da;
+    border: 2px solid #721c24;
+}
+
+.stat-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* button styles */
+.btn-primary {
+    background-color: #ea2a2a;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #8E1616;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
 }
 
 /* Librarian Console Styling */
