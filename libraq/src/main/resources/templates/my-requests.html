@@ -30,8 +30,8 @@
         </div>
     </header>
 
-    <div class="content-container">
-        <main>
+    <div class="page-body-container">
+        <div class="page-body-content-area">
             <h2>My Book Requests</h2>
 
             <!-- Success Message -->
@@ -48,13 +48,14 @@
             </div>
 
             <!-- Requests List -->
-            <section>
+            <section class="book-list">
                 <div th:if="${#lists.isEmpty(requests)}" class="no-books">
                     <p>You haven't submitted any book requests yet.</p>
                     <p><a th:href="@{/book-requests/}">Submit your first request</a></p>
                 </div>
 
-                <div class="book-list" th:if="${!#lists.isEmpty(requests)}">
+
+                <div th:if="${!#lists.isEmpty(requests)}">
                     <div class="book-card" th:each="request : ${requests}">
                         <h3 th:text="${request.title}">Book Title</h3>
                         <p><strong>Author:</strong> <span th:text="${request.author}">Author Name</span></p>
@@ -84,7 +85,7 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
     </div>
 
     <footer>

@@ -8,11 +8,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </head>
 <body>
     <header>
+        <!-- Clickable LibraQ logo that sends you home -->
         <h1><a th:href="@{/home}" class="logo-link">LibraQ</a></h1>
 
         <div class="header-right">
             <div class="header-status">
 
+                <!-- When user IS logged in -->
                 <div sec:authorize="isAuthenticated()">
                     <span>Signed in as </span>
                     <strong><span sec:authentication="name">User</span></strong>
@@ -25,15 +27,24 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
             </div>
 
+            <!-- Navigation buttons -->
+            <!-- Manage Requests button: only for librarians -->
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/book-requests/manage'"
+                    sec:authorize="hasRole('LIBRARIAN')"
+                    style="margin-right: 10px;">
+                Manage Requests
+            </button>
 
-            <!-- Profile button: only when logged in, redirects to user details page if renter, console if librarian-->
-            <div sec:authorize="hasRole('RENTER')"> 
+            <!-- Profile button: only when logged in, redirects to user details page if renter, manage if librarian -->
+            <div sec:authorize="hasRole('RENTER')">
                 <button class="login-btn" type="button"
                     onclick="document.location.href='/userdetails'"
                     sec:authorize="isAuthenticated()">
                     Profile
                 </button>
             </div>
+            
             <div sec:authorize="hasRole('LIBRARIAN')"> 
                 <button class="login-btn" type="button"
                     onclick="document.location.href='/librarianpage'"
@@ -41,18 +52,20 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     Console
                 </button>
             </div>
-
+            
+            <!-- Login button: only when NOT logged in -->
             <button class="login-btn" type="button"
                     onclick="document.location.href='/login'"
                     sec:authorize="isAnonymous()">
                 Login
             </button>
 
+            <!-- Logout button only when logged in -->
             <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
                 <button type="submit" class="login-btn">Logout</button>
             </form>
         </div>
-     </header>
+    </header>
 
     <main class="book-details-page">
         <div class="search-bar-container">
