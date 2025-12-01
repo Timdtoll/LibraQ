@@ -24,7 +24,6 @@
 
             </div>
 
-
             <!-- Profile button: only when logged in, redirects to user details page if renter, console if librarian-->
             <div sec:authorize="hasRole('RENTER')"> 
                 <button class="login-btn" type="button"
@@ -35,7 +34,7 @@
             </div>
             <div sec:authorize="hasRole('LIBRARIAN')"> 
                 <button class="login-btn" type="button"
-                    onclick="document.location.href='/userdetails'"
+                    onclick="document.location.href='/librarianpage'"
                     sec:authorize="isAuthenticated()">
                     Console
                 </button>
@@ -104,11 +103,6 @@
                         </div>
                     </div>
                 </section>
-            </div>
-            <div sec:authorize="hasRole('LIBRARIAN')">
-                <h2>
-                    A Librarian can see this
-                </h2>
             </div>
         </main>
      </div>"

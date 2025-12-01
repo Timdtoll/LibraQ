@@ -814,6 +814,119 @@ main section h2 {
     background-color: #5a6268;
 }
 
+/* Librarian Console Styling */
+.librarian-body {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+/* Add and Remove Book Utility */
+.left-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 50%;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+    
+}
+
+.librarian-btn {
+    background-color: #731010;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    
+}
+
+.librarian-btn:hover {
+    filter: brightness(0.95);
+}
+
+.AR-book-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.AR-book-form-group label {
+    margin-bottom: 5px;
+}
+
+.AR-book-form-group input {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    font-size: 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.AR-book-checkout-btn {
+    padding: 14px;
+    background-color: #7C0A02;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+}
+
+.AR-book-checkout-btn:hover {
+    background-color: #A50E03;
+}
+
+/* Request Side of Console */
+.right-request-container {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    
+}
+
+/*
+.request-card {
+    background-color: #FFFFFF;
+    border: 1px solid #ea2a2a;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+*/
+
+/* Full page format for things that will just stretch the whole width */
+.page-body-container {
+    display: flex; 
+    justify-content: space-between; 
+    padding: 2rem;
+    background-color: #E0DFD5;
+}
+
+.page-body-content-area {
+    flex-grow: 1; /* This ensures that the content area takes up the remaining space */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Cards adjust based on screen size */
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+
+
 /* Animation */
 @keyframes popupFadeIn {
     from { opacity: 0; transform: scale(0.95); }

@@ -37,13 +37,15 @@
                 Manage Requests
             </button>
 
-            <!-- Profile button: only when logged in, redirects to user details page -->
-            <button class="login-btn" type="button"
+            <!-- Profile button: only when logged in, redirects to user details page if renter, manage if librarian -->
+            <div sec:authorize="hasRole('RENTER')">
+                <button class="login-btn" type="button"
                     onclick="document.location.href='/userdetails'"
                     sec:authorize="isAuthenticated()">
                     Profile
                 </button>
             </div>
+            
             <div sec:authorize="hasRole('LIBRARIAN')"> 
                 <button class="login-btn" type="button"
                     onclick="document.location.href='/librarianpage'"
@@ -51,8 +53,6 @@
                     Console
                 </button>
             </div>
-
-
             
             <!-- Login button: only when NOT logged in -->
             <button class="login-btn" type="button"

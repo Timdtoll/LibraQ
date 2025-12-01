@@ -1,15 +1,182 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <title>LibraQ</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>LibraQ</title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        <!-- Header -->
+         <header>
+        <!-- Clickable LibraQ logo that sends you home -->
+        <h1><a th:href="@{/home}" class="logo-link">LibraQ</a></h1>
 
-</body>
-<footer>
-    <p>&copy; 2025 LibraQ Library System</p>
-</footer>
+        <div class="header-right">
+            <div class="header-status">
+
+                <!-- When user IS logged in -->
+                <div sec:authorize="isAuthenticated()">
+                    <span>Signed in as </span>
+                    <strong><span sec:authentication="name">User</span></strong>
+                </div>
+
+                <!-- When user is NOT logged in -->
+                <div sec:authorize="isAnonymous()">
+                    <span>You are not signed in.</span>
+                </div>
+
+            </div>
+
+            <!-- Navigation buttons -->
+
+            <!-- Manage Requests button: only for librarians -->
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/book-requests/manage'"
+                    sec:authorize="hasRole('LIBRARIAN')"
+                    style="margin-right: 10px;">
+                Manage Requests
+            </button>
+
+            <!-- Profile button: only when logged in, redirects to user details page if renter, manage if librarian -->
+            <div sec:authorize="hasRole('RENTER')">
+                <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                    Profile
+                </button>
+            </div>
+            
+            <div sec:authorize="hasRole('LIBRARIAN')"> 
+                <button class="login-btn" type="button"
+                    onclick="document.location.href='/librarianpage'"
+                    sec:authorize="isAuthenticated()">
+                    Console
+                </button>
+            </div>
+            
+            <!-- Login button: only when NOT logged in -->
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/login'"
+                    sec:authorize="isAnonymous()">
+                Login
+            </button>
+
+            <!-- Logout button only when logged in -->
+            <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <button type="submit" class="login-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+
+        <!-- Main Content of Page -->
+        <div class="librarian-body">
+            <section class="left-button-container">
+                
+                    <!-- Add Books -->
+                    <div>
+                        <button class="librarian-btn" type="button" onclick="openAddBook()">Add Book</button>
+                        <div class="popup-overlay" id="addBookForm" style="display:none;">
+                            <div class="popup-box">
+                                <form th:action="@{/addBook}" th:object="${addDto}" method="post" class="AR-book-form-group">
+                                    <h1>Add New Book</h1>
+                                    <div class="AR-book-form-group">
+                                        <label for="title"><b>Title</b></label>
+                                        <input id="title" type="text" th:field="*{title}" placeholder="Enter the book's title" required>
+                                        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message"></div>
+                                    </div>
+                                    <div class="AR-book-form-group">
+                                        <label for="Author"><b>Author</b></label>
+                                        <input id="author" type="text" th:field="*{author}" placeholder="Enter the book's author" required>
+                                        <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="error-message"></div>
+                                    </div>
+                                    <div class="AR-book-form-group">
+                                        <label for="Genre"><b>Genre</b></label>
+                                        <select id="genre" th:field="*{genre}" required>
+                                            <option value="" disabled selected>Select genre</option>
+                                            <option value="ROMANCE">Romance</option>
+                                            <option value="MYSTERY">Mystery</option>
+                                            <option value="CLASSICAL">Classical</option>
+                                            <option value="THRILLER">Thriller</option>
+                                            <option value="NONFICTION">Non-fiction</option>
+                                            <option value="FANTASY">Fantasy</option>
+                                            <option value="YA">Young Adult</option>
+                                            <option value="SCIFI">Science Fiction</option>
+                                        </select>
+                                    </div>
+                                    <div class="AR-book-form-group">
+                                        <label for="ISBN"><b>ISBN</b></label>
+                                        <input id="ISBN" type="text" th:field="*{ISBN}" placeholder="Enter the book's ISBN" required>
+                                        <div th:if="${#fields.hasErrors('ISBN')}" th:errors="*{ISBN}" class="error-message"></div>
+                                    </div>
+                                    <button type="submit" class="AR-book-checkout-btn">Add Book</button>
+                                    <button type="button" class="popup-close" onclick="closePopup('addBookForm')">X</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Remove Books -->
+                    <div>
+                        <button class="librarian-btn" type="button" onclick="openRemoveBook()">Remove Book</button>
+                        <div class="popup-overlay" id="removeBookForm" style="display:none;">
+                            <div class="popup-box">
+                                <form th:action="@{/removeBook}" th:object="${removeDto}" method="post" class="AR-book-form-group">
+                                    <h1>Remove Book</h1>
+                                    <div class="AR-book-form-group">
+                                        <label for="ISBN"><b>ISBN</b></label>
+                                        <input type="text" th:field="*{ISBN}" placeholder="Enter the book's ISBN" required>
+                                        <div th:if="${#fields.hasErrors('ISBN')}" th:errors="*{ISBN}" class="error-message"></div>
+                                    </div>
+                                    <button type="submit" class="AR-book-checkout-btn">Remove Book</button>
+                                    <button type="button" class="popup-close" onclick="closePopup('removeBookForm')">X</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                
+            </section>
+
+            <!-- View Pending Requests -->
+            <section class="right-request-container">
+                <!-- Pending User Requests Do Not Exist-->
+                <div th:if="${#lists.isEmpty(requests)}">
+                    <p>There are no pending book requests</p>
+                </div>
+
+                <!-- Pending User Requests Exist-->
+                <div th:if="${!#lists.isEmpty(requests)}">
+                    <div  th:each="request: ${requests}" th:if="${request.status == T(com.example.libraq.model.RequestStatus).PENDING}">
+                        <div class="book-card">
+                            <h3 th:text="${request.title}">Book Title</h3>
+                            <p><strong>Author:</strong> <span th:text="${request.author}">Author Name</span></p>
+                            <p><strong>Requested:</strong> <span th:text="${request.requestDate}">Request Date</span></p>
+                            <!-- Notes if present -->
+                            <p th:if="${request.notes != null and !request.notes.isEmpty()}">
+                                <strong>Notes:</strong> <span th:text="${request.notes}"></span>
+                            </p>
+                        </div> 
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+    </body>
+    <footer>
+        <p>&copy; 2025 LibraQ Library System</p>
+    </footer>
+
+    <script>
+        function openAddBook() {
+            document.getElementById("addBookForm").style.display = "flex";
+        }
+
+        function openRemoveBook() {
+            document.getElementById("removeBookForm").style.display = "flex";
+        }
+
+        function closePopup(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
 </html>
