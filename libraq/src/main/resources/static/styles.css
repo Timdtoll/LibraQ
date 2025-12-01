@@ -625,6 +625,78 @@ section h2 {
     font-weight: strong;
 }
 
+/* Librarian Console Styling */
+
+/* Add and Remove Book Utility */
+.left-button-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 20%;
+    
+}
+
+.librarian-btn {
+    background-color: #731010;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 30%;
+    padding: 10px;
+    height: 30%;
+}
+
+.librarian-btn:hover {
+    filter: brightness(0.95);
+}
+
+.AR-book-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.AR-book-form-group label {
+    margin-bottom: 5px;
+}
+
+.AR-book-form-group input {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    font-size: 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.AR-book-checkout-btn {
+    padding: 14px;
+    background-color: #7C0A02;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+}
+
+.AR-book-checkout-btn:hover {
+    background-color: #A50E03;
+}
+
+/* Request Side of Console */
+.right-request-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    
+}
+
+
+
 /* Animation */
 @keyframes popupFadeIn {
     from { opacity: 0; transform: scale(0.95); }

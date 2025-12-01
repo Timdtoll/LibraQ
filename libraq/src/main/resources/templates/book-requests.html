@@ -18,11 +18,20 @@
                 </div>
             </div>
 
+            <!-- Profile button: only when logged in, redirects to user details page -->
             <button class="login-btn" type="button"
                     onclick="document.location.href='/userdetails'"
                     sec:authorize="isAuthenticated()">
-                Profile
-            </button>
+                    Profile
+                </button>
+            </div>
+            <div sec:authorize="hasRole('LIBRARIAN')"> 
+                <button class="login-btn" type="button"
+                    onclick="document.location.href='/librarianpage'"
+                    sec:authorize="isAuthenticated()">
+                    Console
+                </button>
+            </div>
 
             <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
                 <button type="submit" class="login-btn">Logout</button>
