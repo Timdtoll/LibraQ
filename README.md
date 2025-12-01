@@ -77,7 +77,9 @@ We follow the Git Flow branching model to organize development and maintain a cl
 
 ## Testing
 
-Some of the features require a user to log in. You can either register as a new user or use the credentials **email:** test@gmail.com and **password:** testpassword
+Some of the features require a user to log in. You can either register as a new user or use the following credentials:
+- RENTER: **email:** test@gmail.com and **password:** testpassword
+- LIBRARIAN:  **email:** 	librarian@libraq.com and **password:** password123
 
 ## Authors
 - Taisia Zhizhina	
