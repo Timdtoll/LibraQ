@@ -75,6 +75,33 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 </span>
             </p>
             
+            <!-- LIBRARIAN: Show who has the book checked out -->
+<div th:if="${!book.available and activeCheckout != null}"
+     sec:authorize="hasRole('LIBRARIAN')"
+     class="borrower-info">
+
+    <h3>Current borrower</h3>
+
+    <p>
+        Name:
+        <span th:text="${activeCheckout.user.name}"></span>
+    </p>
+
+    <p>
+    	Email:
+    	<a th:href="'mailto:' + ${activeCheckout.user.email}"
+       	th:text="${activeCheckout.user.email}">
+    </a>
+</p>
+
+    <p>
+        Due date:
+        <span th:text="${activeCheckout.dueDate}"></span>
+    </p>
+
+</div>
+            
+            
             <div th:if="${book.available}">
                 <!-- RENTER: Show checkout button -->
                 <div sec:authorize="hasRole('RENTER')">
@@ -91,6 +118,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     <p>Please <a th:href="@{/login}">login as a Renter</a> to checkout this book.</p>
                 </div>
             </div>
+            
+            <!-- LIBRARIAN: Show check-in button when book is unavailable -->
+<div th:if="${!book.available}" sec:authorize="hasRole('LIBRARIAN')">
+    <form th:action="@{'/books/' + ${book.ISBN} + '/checkin'}" method="post">
+        <button type="submit" class="checkout-btn">
+            Check In
+        </button>
+    </form>
+</div>
+             
+             
         </section>
     </main>
 
@@ -110,22 +148,28 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     </div>
 
     <!-- Success / Error Popup (after book has been attempted to be checked out) -->
-    <div id="resultPopup" class="popup-overlay"
-        th:if="${checkoutSuccess != null or checkoutError != null}" style="display:flex;">
-        <div class="popup-box">
-            <button class="popup-close" onclick="closePopup('resultPopup')">×</button>
+	<div id="resultPopup" class="popup-overlay"
+     th:if="${checkoutSuccess != null or checkoutError != null or checkinSuccess != null or checkinError != null}"
+     style="display:flex;">
+    <div class="popup-box">
+        <button class="popup-close" onclick="closePopup('resultPopup')">×</button>
 
-            <h3 th:if="${checkoutSuccess != null}" class="success-title">Success</h3>
-            <h3 th:if="${checkoutError != null}" class="error-title">Error</h3>
-            
-            <p th:if="${checkoutSuccess != null}" th:text="${checkoutSuccess}"></p>
-            <p th:if="${checkoutError != null}" th:text="${checkoutError}"></p> 
+        <!-- Heading -->
+        <h3 th:if="${checkoutSuccess != null or checkinSuccess != null}" class="success-title">Success</h3>
+        <h3 th:if="${checkoutError != null or checkinError != null}" class="error-title">Error</h3>
 
-            <div class="popup-actions">
-                <button type="button" class="popup-btn" onclick="window.location.href='/home'">Take Me Home</button>
-            </div>
+        <!-- Messages -->
+        <p th:if="${checkoutSuccess != null}" th:text="${checkoutSuccess}"></p>
+        <p th:if="${checkoutError != null}" th:text="${checkoutError}"></p>
+        <p th:if="${checkinSuccess != null}" th:text="${checkinSuccess}"></p>
+        <p th:if="${checkinError != null}" th:text="${checkinError}"></p>
+
+        <div class="popup-actions">
+            <button type="button" class="popup-btn" onclick="window.location.href='/home'">Take Me Home</button>
         </div>
     </div>
+</div>
+
 
 
 

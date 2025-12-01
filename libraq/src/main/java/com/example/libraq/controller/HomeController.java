@@ -26,7 +26,6 @@ public class HomeController {
     public String home(
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "genres", required = false) List<Genre> selectedGenres,
-            HttpSession session,
             Model model) {
 
         List<Book> books;
