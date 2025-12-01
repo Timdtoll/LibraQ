@@ -45,28 +45,26 @@
 
     <!-- Main Content -->
      
-     <div class="content-container">
+     <div class="full-width-container">
         <!-- Welcome User -->
-        <div><strong><welcome-message>Welcome <span th:text="${user.name}"></span></welcome-message></strong></div>
+        <div class="welcome-message">Welcome <span th:text="${user.name}"></span></div>
         
         <!-- Action Buttons -->
-        <div style="margin: 20px 0;">
+        <div class="action-buttons">
             <!-- Librarian Actions -->
-            <button class="login-btn" type="button" 
+            <button class="btn-primary" type="button" 
                     onclick="document.location.href='/book-requests/manage'"
-                    sec:authorize="hasRole('LIBRARIAN')"
-                    style="margin-right: 10px; background-color: #007bff; color: white;">
+                    sec:authorize="hasRole('LIBRARIAN')">
                 Manage Book Requests
             </button>
             
             <!-- Renter Actions -->
-            <button class="login-btn" type="button" 
+            <button class="btn-primary" type="button" 
                     onclick="document.location.href='/book-requests/'"
-                    sec:authorize="hasRole('RENTER')"
-                    style="margin-right: 10px;">
+                    sec:authorize="hasRole('RENTER')">
                 Request a Book
             </button>
-            <button class="login-btn" type="button" 
+            <button class="btn-primary" type="button" 
                     onclick="document.location.href='/book-requests/my-requests'"
                     sec:authorize="hasRole('RENTER')">
                 My Requests
@@ -76,7 +74,7 @@
         <!-- Checked out books-->
         <main>
             <section>
-                <h2>Checked Out books:</h2>
+                <h2>Checked Out Books</h2>
                 <div th:if="${#lists.isEmpty(checkouts)}" class="no-books">
                     <p>No books checked out.</p>
                 </div>

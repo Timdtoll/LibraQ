@@ -45,12 +45,12 @@
             <p class="form-description">Can't find the book you're looking for? Request it to be added to our library!</p>
 
             <!-- Success Message -->
-            <div th:if="${success != null}" class="success-message" style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+            <div th:if="${success != null}" class="success-message">
                 <p th:text="${success}"></p>
             </div>
 
             <!-- Error Message -->
-            <div th:if="${error != null}" class="error-message" style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+            <div th:if="${error != null}" class="error-message">
                 <p th:text="${error}"></p>
             </div>
 
