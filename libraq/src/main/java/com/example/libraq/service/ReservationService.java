@@ -1,6 +1,7 @@
 package com.example.libraq.service;
 
 import com.example.libraq.model.*;
+import com.example.libraq.repository.BookRepository;
 import com.example.libraq.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,9 +14,11 @@ import java.util.List;
 public class ReservationService {
 
     private final ReservationRepository reservationRepo;
+    private final BookRepository bookRepository;
 
-    public ReservationService(ReservationRepository reservationRepo) {
+    public ReservationService(ReservationRepository reservationRepo, BookRepository bookRepository) {
         this.reservationRepo = reservationRepo;
+        this.bookRepository = bookRepository;
     }
 
     // Create new reservation
@@ -81,7 +84,11 @@ public class ReservationService {
     public Reservation processQueueAfterExpiration(Book book) {
         // Check for any ACTIVE reservations
         Reservation next = getNextActiveReservation(book);
-        if (next == null) return null;
+        if (next == null) {
+            book.setAvailable(true);
+            bookRepository.save(book);
+            return null;
+        }
 
         // Promote to HOLD_READY
         next.setStatus(ReservationStatus.HOLD_READY);
