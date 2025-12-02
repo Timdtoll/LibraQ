@@ -1,12 +1,14 @@
 package com.example.libraq.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.libraq.model.Book;
 import com.example.libraq.model.CheckoutReceipt;
+import com.example.libraq.model.Reservation;
 import com.example.libraq.model.Users;
 import com.example.libraq.repository.BookRepository;
 import com.example.libraq.repository.CheckoutReceiptRepository;
@@ -18,16 +20,37 @@ public class CheckoutService {
 
     private final CheckoutReceiptRepository checkoutRepo;
     private final BookRepository bookRepo;
+    private final int MAX_EXTENSIONS = 3;
+    private final ReservationService reservationService;
+    static public final int MAX_EXTENSIONS_ERROR_CODE = 409;
+    static public final int BOOK_RESERVED_CODE = 410;
 
-    public CheckoutService(CheckoutReceiptRepository checkoutRepo, BookRepository bookRepo) {
+    public CheckoutService(CheckoutReceiptRepository checkoutRepo, BookRepository bookRepo, ReservationService reservationService) {
         this.checkoutRepo = checkoutRepo;
         this.bookRepo = bookRepo;
+        this.reservationService = reservationService;
+    }
+
+    public CheckoutReceipt getCheckoutById(Long id) {
+        return checkoutRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("No checkout found for the given ID."));
     }
 
     @Transactional
     public void checkoutBook(Users user, Book book) {
         if (!book.isAvailable()) {
-            throw new IllegalStateException("Book is not available.");
+            //check if user has a hold-ready reservation
+            Reservation hold = reservationService.getHoldReadyReservation(book);
+            //if the they dont have a hold and book is unavailable
+            if (hold == null || !hold.getUser().getId().equals(user.getId())) {
+                throw new IllegalStateException("Book is not available.");
+            }
+            //if their hold has expired
+            if (hold.getHoldExpirationDate().isBefore(LocalDateTime.now())) {
+                throw new IllegalStateException("Your hold has expired.");
+            }
+            //fulfill their hold otherwise
+            reservationService.fulfillReservation(hold);
         }
 
         CheckoutReceipt checkout = new CheckoutReceipt(user, book);
@@ -37,22 +60,49 @@ public class CheckoutService {
         checkoutRepo.save(checkout);
     }
 
-    // Will be useful when librarioan checks in books
-    @Transactional
-    public void returnBook(CheckoutReceipt checkout) {
-        checkout.setReturnDate(LocalDate.now());
-        checkout.getBook().setAvailable(true);
-        bookRepo.save(checkout.getBook());
+    public int extendCheckout(CheckoutReceipt checkout) {
+        if (checkout.getReturnDate() != null) {
+            throw new IllegalStateException("Cannot extend a returned book.");
+        }
+
+        if (reservationService.getNextActiveReservation(checkout.getBook()) != null) {
+            return BOOK_RESERVED_CODE; //someone has reserved the book
+        }
+
+        if(checkout.getExtensionCount() >= MAX_EXTENSIONS) {
+            return MAX_EXTENSIONS_ERROR_CODE; //max extensions reached
+        }   
+
+        checkout.setDueDate(checkout.getDueDate().plusDays(14));
+        checkout.setExtensionCount(checkout.getExtensionCount() + 1);
         checkoutRepo.save(checkout);
+        return 0;
     }
 
     // Will be needed to display user's checkout history
     public List<CheckoutReceipt> getUserCheckouts(Users user) {
-        return checkoutRepo.findByUser(user);
+        return checkoutRepo.findByUserAndReturnDateIsNull(user);
     }
+
 
     public CheckoutReceipt getActiveCheckoutByBook(Book book) {
         return checkoutRepo.findByBookAndReturnDateIsNull(book)
                 .orElseThrow(() -> new IllegalArgumentException("No active checkout found for the given book."));
     }
+    
+    //CheckInBook Method
+    @Transactional
+    public void checkInBook(Book book) {
+        CheckoutReceipt activeCheckout = checkoutRepo.findByBookAndReturnDateIsNull(book)
+                .orElseThrow(() -> new IllegalArgumentException("This book is not currently checked out."));
+
+        activeCheckout.setReturnDate(LocalDate.now());
+
+        // Activate reservation queue, and set availability accordingly
+        reservationService.handleBookReturn(book);
+
+        bookRepo.save(book);
+        checkoutRepo.save(activeCheckout);
+    }
+
 }

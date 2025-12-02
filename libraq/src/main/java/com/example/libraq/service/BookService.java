@@ -1,20 +1,19 @@
 package com.example.libraq.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.libraq.model.Book;
 import com.example.libraq.model.Genre;
 import com.example.libraq.repository.BookRepository;
 
-import java.util.List;
-
 @Service
 public class BookService {
 
     private final BookRepository repo;
 
-    @Autowired
     public BookService(BookRepository bookRepository) {
         this.repo = bookRepository;
     }
@@ -51,8 +50,12 @@ public class BookService {
         repo.save(book);
     }
 
-    public Book getBookByISBN(Long isbn) {
-        return repo.findById(isbn).orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + isbn));
+    public Book getBookByISBN(Long ISBN) {
+        return repo.findById(ISBN).orElseThrow(() -> new IllegalArgumentException("Book not found with ISBN: " + ISBN));
+    }
+
+    public boolean bookExists(Long ISBN) {
+        return repo.existsById(ISBN);
     }
 
     /**
@@ -76,5 +79,4 @@ public class BookService {
                         || genres.contains(book.getGenre())))
                 .toList();
     }
-
 }

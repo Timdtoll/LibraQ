@@ -4,12 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @Configuration
 @EnableWebSecurity // Enables Spring Security web security support
@@ -35,10 +34,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests( registry -> {
                     
                     registry.requestMatchers( HttpMethod.POST,"/books/*/checkout").hasRole("RENTER");
+                    
+                    // Book request endpoints
+                    registry.requestMatchers("/book-requests/", "/book-requests/my-requests").authenticated();
+                    registry.requestMatchers("/librarianpage", "/book-requests/manage", "/book-requests/*/approve", "/book-requests/*/reject").hasRole("LIBRARIAN");
 
                     // No authentication required for these files
-                    
-                    registry.requestMatchers( "/register", "/login", "/styles.css", "/css/**", "/home", "/books", "/books/*", "/h2-console/**", "/admin/**").permitAll();
+                    registry.requestMatchers( "/", "/register", "/login", "/styles.css", "/css/**", "/home", "/books", "/books/*", "/h2-console/**", "/admin/**").permitAll();
+
                     // All other pages will require authentication
                     registry.anyRequest().authenticated();
                 })

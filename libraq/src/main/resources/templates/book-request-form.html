@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>LibraQ</title>
+    <title>Request a Book | LibraQ</title>
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -28,7 +28,6 @@
             </div>
 
             <!-- Navigation buttons -->
-
             <!-- Manage Requests button: only for librarians -->
             <button class="login-btn" type="button"
                     onclick="document.location.href='/book-requests/manage'"
@@ -68,61 +67,55 @@
         </div>
     </header>
 
-    <div class="content-container">
-        <!-- Sidebar for Genre Filters -->
-        <aside class="genre-sidebar">
-            <h3>Filter by Genre</h3>
-            <form th:action="@{/home}" method="get">
-                <div class="checkbox-group">
-                    <label th:each="genre : ${genres}">
-                        <input type="checkbox" name="genres"
-                               th:value="${genre}"
-                               th:checked="${selectedGenres != null and selectedGenres.contains(genre)}"/>
-                        <span th:text="${genre.displayName}">Genre</span>
-                    </label>
-                </div>
-                <button type="submit" class="filter-btn">Apply Filter</button>
-            </form>
-        </aside>
+    <div class="registration-container">
+        <section class="registration-card">
+            <h2>Request a Book</h2>
+            <p class="form-description">Can't find the book you're looking for? Request it to be added to our library!</p>
 
-        <!-- Main Content -->
-        <main>
-            <!-- Search Bar for searching by author or by title -->
-            <div class="search-bar-container">
-                <form th:action="@{/home}" method="get" class="search-bar">
-                    <input type="text" name="query" placeholder="Search by title or author..."
-                           th:value="${query}" />
-                    <button type="submit">Search</button>
-                </form>
+            <!-- Success Message -->
+            <div th:if="${success != null}" class="success-message">
+                <p th:text="${success}"></p>
             </div>
 
-            <!-- Book List/Search Results -->
-            <section>
-                <h2>Available Books</h2>
+            <!-- Error Message -->
+            <div th:if="${error != null}" class="error-message">
+                <p th:text="${error}"></p>
+            </div>
 
-                <div th:if="${#lists.isEmpty(books)}" class="no-books">
-                    <p>No books found.</p>
+            <form th:action="@{/book-requests}" th:object="${dto}" method="post" class="registration-form">
+
+                <div class="form-group">
+                    <label for="title">Book Title <span style="color: red;">*</span></label>
+                    <input id="title" th:field="*{title}" type="text" placeholder="Enter the book title" required>
+                    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message"></div>
                 </div>
 
-                <div class="book-list" th:if="${!#lists.isEmpty(books)}">
-                    <div class="book-card" th:each="book : ${books}">
-                        <a th:href="@{/books/{isbn}(isbn=${book.getISBN()})}" class="book-link">
-                            <h3 th:text="${book.title}">Book Title</h3>
-                            <p><strong>Author:</strong> <span th:text="${book.author}">Author Name</span></p>
-                            <p><strong>Genre:</strong> <span th:text="${book.genre.displayName}">Genre</span></p>
-                            <p th:if="${holdMap[book.ISBN]}">On Hold</p>
-                            <p th:if="${!holdMap[book.ISBN] and book.isAvailable()}" style="color: green;">Available</p>
-                            <p th:if="${!holdMap[book.ISBN] and !book.isAvailable()}" style="color: red;">Unavailable</p>
-                        </a>
-                    </div>
+                <div class="form-group">
+                    <label for="author">Author <span style="color: red;">*</span></label>
+                    <input id="author" th:field="*{author}" type="text" placeholder="Enter the author's name" required>
+                    <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="error-message"></div>
                 </div>
-            </section>
-        </main>
+
+                <div class="form-group">
+                    <label for="notes">Additional Notes (Optional)</label>
+                    <textarea id="notes" th:field="*{notes}" rows="4" placeholder="Any additional information about the book (e.g., edition, ISBN, why you'd like this book)"></textarea>
+                    <div th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}" class="error-message"></div>
+                </div>
+
+                <button type="submit" class="register-btn">Submit Request</button>
+
+                <p class="login-link">
+                    <a th:href="@{/userdetails}">Back to Profile</a> | 
+                    <a th:href="@{/home}">Back to Home</a>
+                </p>
+
+            </form>
+        </section>
     </div>
 
-    <!-- Footer -->
     <footer>
         <p>&copy; 2025 LibraQ Library System</p>
     </footer>
 </body>
 </html>
+
