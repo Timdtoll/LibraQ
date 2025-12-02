@@ -192,6 +192,14 @@ footer {
     background-color: #E0DFD5;
 }
 
+/* === Full-width container for pages without sidebar === */
+.full-width-container {
+    padding: 1.5rem 2rem;
+    background-color: #E0DFD5;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 /* === Genre Sidebar === */
 .genre-sidebar {
     background-color: #FFFFFF;
@@ -618,12 +626,306 @@ section h2 {
 
 /* User Page Styling */
 .welcome-message {
-    text-align: left;
-    color: black;
-    display: inline;
-    font-size: 1.5em;
-    font-weight: strong;
+    color: #1D1616;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: block;
 }
+
+/* Standardized page headings */
+.full-width-container > main > h2,
+main > h2 {
+    color: #8E1616;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    font-size: 1.8rem;
+    text-align: left;
+}
+
+/* Section headings within main */
+.full-width-container section h2,
+main section h2 {
+    color: #8E1616;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+    text-align: left;
+}
+
+/* Standardized success/error messages */
+.success-message {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    border-left: 4px solid #dc3545;
+}
+
+.success-message p,
+.error-message p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.status-badge.pending {
+    color: #856404;
+    background-color: #fff3cd;
+}
+
+.status-badge.approved {
+    color: #155724;
+    background-color: #d4edda;
+}
+
+.status-badge.rejected {
+    color: #721c24;
+    background-color: #f8d7da;
+}
+
+/* Action buttons container */
+.action-buttons {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Stat boxes for filtering */
+.stat-box {
+    padding: 12px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.stat-box strong {
+    color: #1D1616;
+    margin-right: 5px;
+}
+
+.stat-box.all {
+    background-color: #d1ecf1;
+    border: 2px solid #007bff;
+}
+
+.stat-box.pending {
+    background-color: #fff3cd;
+    border: 2px solid #856404;
+}
+
+.stat-box.approved {
+    background-color: #d4edda;
+    border: 2px solid #155724;
+}
+
+.stat-box.rejected {
+    background-color: #f8d7da;
+    border: 2px solid #721c24;
+}
+
+.stat-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* button styles */
+.btn-primary {
+    background-color: #ea2a2a;
+    color: #FFFFFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #8E1616;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Librarian Console Styling */
+.librarian-body {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+/* Add and Remove Book Utility */
+.left-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 50%;
+    height: auto;
+    padding: 10px;
+    gap: 10px;
+    
+}
+
+.librarian-btn {
+    background-color: #731010;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    
+}
+
+.librarian-btn:hover {
+    filter: brightness(0.95);
+}
+
+.AR-book-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.AR-book-form-group label {
+    margin-bottom: 5px;
+}
+
+.AR-book-form-group input {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #888;
+    font-size: 15px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.AR-book-checkout-btn {
+    padding: 14px;
+    background-color: #7C0A02;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 17px;
+    cursor: pointer;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+}
+
+.AR-book-checkout-btn:hover {
+    background-color: #A50E03;
+}
+
+/* Request Side of Console */
+.right-request-container {
+    flex-grow: 1;
+    padding: 10px;
+    overflow-y: auto;
+    
+}
+
+/*
+.request-card {
+    background-color: #FFFFFF;
+    border: 1px solid #ea2a2a;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+*/
+
+/* Full page format for things that will just stretch the whole width */
+.page-body-container {
+    display: flex; 
+    justify-content: space-between; 
+    padding: 2rem;
+    background-color: #E0DFD5;
+}
+
+.page-body-content-area {
+    flex-grow: 1; /* This ensures that the content area takes up the remaining space */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Cards adjust based on screen size */
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+}
+
+
 
 /* Animation */
 @keyframes popupFadeIn {

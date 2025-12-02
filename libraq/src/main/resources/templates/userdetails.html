@@ -24,7 +24,6 @@
 
             </div>
 
-
             <!-- Profile button: only when logged in, redirects to user details page if renter, console if librarian-->
             <div sec:authorize="hasRole('RENTER')"> 
                 <button class="login-btn" type="button"
@@ -35,7 +34,7 @@
             </div>
             <div sec:authorize="hasRole('LIBRARIAN')"> 
                 <button class="login-btn" type="button"
-                    onclick="document.location.href='/userdetails'"
+                    onclick="document.location.href='/librarianpage'"
                     sec:authorize="isAuthenticated()">
                     Console
                 </button>
@@ -55,28 +54,26 @@
 
     <!-- Main Content -->
      
-     <div class="content-container">
+     <div class="full-width-container">
         <!-- Welcome User -->
-        <div><strong><welcome-message>Welcome <span th:text="${user.name}"></span></welcome-message></strong></div>
+        <div class="welcome-message">Welcome <span th:text="${user.name}"></span></div>
         
         <!-- Action Buttons -->
-        <div style="margin: 20px 0;">
+        <div class="action-buttons">
             <!-- Librarian Actions -->
-            <button class="login-btn" type="button" 
+            <button class="btn-primary" type="button" 
                     onclick="document.location.href='/book-requests/manage'"
-                    sec:authorize="hasRole('LIBRARIAN')"
-                    style="margin-right: 10px; background-color: #007bff; color: white;">
+                    sec:authorize="hasRole('LIBRARIAN')">
                 Manage Book Requests
             </button>
             
             <!-- Renter Actions -->
-            <button class="login-btn" type="button" 
+            <button class="btn-primary" type="button" 
                     onclick="document.location.href='/book-requests/'"
-                    sec:authorize="hasRole('RENTER')"
-                    style="margin-right: 10px;">
+                    sec:authorize="hasRole('RENTER')">
                 Request a Book
             </button>
-            <button class="login-btn" type="button" 
+            <button class="btn-primary" type="button" 
                     onclick="document.location.href='/book-requests/my-requests'"
                     sec:authorize="hasRole('RENTER')">
                 My Requests
@@ -106,10 +103,11 @@
                             <!-- Currently does not work due to date comparison issues
                             <p th:if="${#temporals.isBefore(#temporals.createNow(), checkout.dueDate)}" style="color: green;">Due Date</p>
                             <p th:if="${#temporals.isAfter(#temporals.createNow(), checkout.dueDate)}" style="color: red;">Due Date</p>
-                            -->
+                             -->
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
      </div>"
      

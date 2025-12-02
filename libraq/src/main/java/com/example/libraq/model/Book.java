@@ -1,8 +1,6 @@
 package com.example.libraq.model;
 
 import jakarta.persistence.Entity;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
@@ -14,8 +12,9 @@ public class Book {
 	private Long ISBN; // unique for every book
 	private String title;
 	private String author;
-	private Genre genre;
 	private boolean available = true; // will be needed in future features
+	private Genre genre;
+	
 
 	public Book() {
 	}
@@ -63,4 +62,8 @@ public class Book {
 	public void setAvailable(boolean available) {
 		this.available = available;
 	}
+
+    public boolean isEmpty() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
