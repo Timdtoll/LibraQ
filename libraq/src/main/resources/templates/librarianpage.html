@@ -139,9 +139,10 @@
 
             <!-- View Pending Requests -->
             <section class="right-request-container">
+                <h2 style="text-align: center;">Pending Book Requests</h2>
                 <!-- Pending User Requests Do Not Exist-->
-                <div th:if="${#lists.isEmpty(requests)}">
-                    <p>There are no pending book requests</p>
+                <div th:if="${#lists.isEmpty(pendingRequests)}">
+                    <p class="no-books" style="text-align: center;">There are no pending book requests</p>
                 </div>
 
                 <!-- Pending User Requests Exist-->

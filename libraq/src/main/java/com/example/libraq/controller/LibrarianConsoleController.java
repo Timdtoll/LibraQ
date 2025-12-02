@@ -52,8 +52,10 @@ public class LibrarianConsoleController {
         //Add all books to model
         model.addAttribute("books", bookService.getAllBooks());
 
-        //Add all book requests to model
+        //Add all book requests to model, seperate pending requests and add to model
         model.addAttribute("requests", bookRequestService.getAllRequests());
+
+        model.addAttribute("pendingRequests", bookRequestService.getRequestsByStatus(com.example.libraq.model.RequestStatus.PENDING));
 
         return "librarianpage"; // Thymeleaf template name for librarian console
     }
