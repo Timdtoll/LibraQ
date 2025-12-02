@@ -65,7 +65,7 @@ public class CheckoutService {
             throw new IllegalStateException("Cannot extend a returned book.");
         }
 
-        if (reservationService.hasAnyReservations(checkout.getBook())) {
+        if (reservationService.getNextActiveReservation(checkout.getBook()) != null) {
             return BOOK_RESERVED_CODE; //someone has reserved the book
         }
 
