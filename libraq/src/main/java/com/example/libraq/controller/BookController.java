@@ -59,6 +59,9 @@ public class BookController {
         boolean onHold = reservationService.hasAnyReservations(book);
         model.addAttribute("onHold", onHold);
 
+        boolean activeHold = reservationService.getHoldReadyReservation(book) != null;
+        model.addAttribute("activeHold", activeHold);
+
         boolean holdReadyForUser = principal != null &&
                 reservationService.userHasReadyReservation(book, user);
         model.addAttribute("holdReadyForUser", holdReadyForUser);

@@ -88,10 +88,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 <span th:if="${book.available and !holdReadyForUser}" style="color: green;">Available</span>
 
                 <!-- Book is on hold for someone -->
-                <span th:if="${!book.available and onHold and !holdReadyForUser}">On Hold</span>
+                <span th:if="${!book.available and activeHold and !holdReadyForUser}">On Hold</span>
 
                 <!-- Regular unavailable -->
-                <span th:if="${!book.available and !onHold}" style="color: red;">Unavailable</span>
+                <span th:if="${!book.available and !activeHold}" style="color: red;">Unavailable</span>
             </p>
 
             <p>
@@ -153,7 +153,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                 </div>
             </div>
             <!-- LIBRARIAN: Show check-in button when book is unavailable -->
-<div th:if="${!book.available and !onHold}" sec:authorize="hasRole('LIBRARIAN')">
+<div th:if="${!book.available and !activeHold}" sec:authorize="hasRole('LIBRARIAN')">
     <form th:action="@{'/books/' + ${book.ISBN} + '/checkin'}" method="post">
         <button type="submit" class="checkout-btn">
             Check In
