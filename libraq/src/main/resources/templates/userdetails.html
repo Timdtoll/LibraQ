@@ -96,6 +96,10 @@
                             <p><strong>Checked Out:</strong> <span th:text="${checkout.checkoutDate}">Checkout Date</span></p>
                             <p><strong>Due:</strong> <span th:text="${checkout.dueDate}">Due Date</span></p>
 
+                           <form th:action="@{/extend/{id}(id=${checkout.id})}" method="post" th:if="${checkout.returnDate == null}">
+                                <button type="submit" class="checkout-btn">Extend Due Date</button>
+                            </form>
+
                             <!-- Currently does not work due to date comparison issues
                             <p th:if="${#temporals.isBefore(#temporals.createNow(), checkout.dueDate)}" style="color: green;">Due Date</p>
                             <p th:if="${#temporals.isAfter(#temporals.createNow(), checkout.dueDate)}" style="color: red;">Due Date</p>
@@ -112,5 +116,11 @@
     <footer>
         <p>&copy; 2025 LibraQ Library System</p>
     </footer>
+
+    <script>
+            function closePopup(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+    </script>
 </body>
 </html>

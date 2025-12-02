@@ -497,7 +497,7 @@ section h2 {
 /* Checkout button */
 .checkout-btn {
     display: inline-block;
-    background-color: #5E0000;
+    background-color: #8E1616;
     color: #FFFFFF;
     border: none;
     border-radius: 6px;
@@ -510,7 +510,7 @@ section h2 {
 }
 
 .checkout-btn:hover {
-    background-color: #8E1616;
+    background-color: #5E0000;
 }
 
 /* === Popup Styling === */
