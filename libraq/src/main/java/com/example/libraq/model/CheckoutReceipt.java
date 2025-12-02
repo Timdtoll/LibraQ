@@ -28,6 +28,7 @@ public class CheckoutReceipt {
     private LocalDate dueDate;
     private LocalDate returnDate; // null if not returned yet
     private Double fineAmount; // null if no fine
+    private int extensionCount = 0;
 
     public CheckoutReceipt() {
     }
@@ -74,6 +75,17 @@ public class CheckoutReceipt {
 
     public void setReturnDate(LocalDate returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public int getExtensionCount() {
+        return extensionCount;
+    }
+    public void setExtensionCount(int extensionCount) {
+        this.extensionCount = extensionCount;
     }
 
 }

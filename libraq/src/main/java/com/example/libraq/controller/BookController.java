@@ -16,6 +16,7 @@ import com.example.libraq.model.Book;
 import com.example.libraq.model.Users;
 import com.example.libraq.service.BookService;
 import com.example.libraq.service.CheckoutService;
+import com.example.libraq.service.ReservationService;
 import com.example.libraq.service.UserService;
 
 @Controller
@@ -25,15 +26,17 @@ public class BookController {
     private final BookService bookService;
     private final CheckoutService checkoutService;
     private final UserService userService;
+    private final ReservationService reservationService;
 
-    public BookController(BookService bookService, CheckoutService checkoutService, UserService userService) {
+    public BookController(BookService bookService, CheckoutService checkoutService, UserService userService, ReservationService reservationService) {
         this.bookService = bookService;
         this.checkoutService = checkoutService;
         this.userService = userService;
+        this.reservationService = reservationService;
     }
 
     @GetMapping("/{isbn}")
-    public String viewBook(@PathVariable Long isbn, Model model) {
+    public String viewBook(@PathVariable Long isbn, Model model, Principal principal) {
         Optional<Book> bookOpt = bookService.findByISBN(isbn);
         if (bookOpt.isEmpty()) {
             return "redirect:/?error=bookNotFound";
@@ -47,6 +50,18 @@ public class BookController {
                 // No active checkout found, do nothing
             }
         }
+        
+        Users user = null;
+        if (principal != null) {
+            user = userService.findByEmail(principal.getName()).get(0);
+        }
+
+        boolean onHold = reservationService.hasAnyReservations(book);
+        model.addAttribute("onHold", onHold);
+
+        boolean holdReadyForUser = principal != null &&
+                reservationService.userHasReadyReservation(book, user);
+        model.addAttribute("holdReadyForUser", holdReadyForUser);
         return "book-details.html";
     }
 
@@ -67,6 +82,27 @@ public class BookController {
 
         return "redirect:/books/" + isbn;
     }
+    @PostMapping("/{isbn}/reserve")
+    @PreAuthorize("hasRole('RENTER')")
+    public String reserveBook(@PathVariable Long isbn, Principal principal, RedirectAttributes redirectAttributes) {
+        Users user = userService.findByEmail(principal.getName()).get(0);
+        Book book = bookService.getBookByISBN(isbn);
+        
+
+         // Prevent duplicate reservations
+        if (reservationService.userHasReservation(book, user)) {
+            redirectAttributes.addFlashAttribute("reservationError",
+                    "You already have a reservation for this book.");
+            return "redirect:/books/" + isbn;
+        }
+         // Create reservation
+        reservationService.reserveBook(book, user);
+        redirectAttributes.addFlashAttribute("reservationSuccess",
+        "You have reserved " + book.getTitle() + ". You will be notified when it becomes available.");
+
+        return "redirect:/books/" + isbn;
+    }
+    
     
     @PreAuthorize("hasRole('LIBRARIAN')")
     @PostMapping("/{isbn}/checkin")
