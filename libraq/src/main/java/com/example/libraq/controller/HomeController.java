@@ -14,6 +14,8 @@ import com.example.libraq.model.Genre;
 import com.example.libraq.service.BookService;
 import com.example.libraq.service.ReservationService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class HomeController {
 

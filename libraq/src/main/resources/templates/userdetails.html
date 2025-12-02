@@ -25,11 +25,21 @@
             </div>
 
 
-            <button class="login-btn" type="button"
+            <!-- Profile button: only when logged in, redirects to user details page if renter, console if librarian-->
+            <div sec:authorize="hasRole('RENTER')"> 
+                <button class="login-btn" type="button"
                     onclick="document.location.href='/userdetails'"
                     sec:authorize="isAuthenticated()">
-                Profile
-            </button>
+                    Profile
+                </button>
+            </div>
+            <div sec:authorize="hasRole('LIBRARIAN')"> 
+                <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                    Console
+                </button>
+            </div>
 
             <button class="login-btn" type="button"
                     onclick="document.location.href='/login'"
@@ -48,14 +58,40 @@
      <div class="content-container">
         <!-- Welcome User -->
         <div><strong><welcome-message>Welcome <span th:text="${user.name}"></span></welcome-message></strong></div>
+        
+        <!-- Action Buttons -->
+        <div style="margin: 20px 0;">
+            <!-- Librarian Actions -->
+            <button class="login-btn" type="button" 
+                    onclick="document.location.href='/book-requests/manage'"
+                    sec:authorize="hasRole('LIBRARIAN')"
+                    style="margin-right: 10px; background-color: #007bff; color: white;">
+                Manage Book Requests
+            </button>
+            
+            <!-- Renter Actions -->
+            <button class="login-btn" type="button" 
+                    onclick="document.location.href='/book-requests/'"
+                    sec:authorize="hasRole('RENTER')"
+                    style="margin-right: 10px;">
+                Request a Book
+            </button>
+            <button class="login-btn" type="button" 
+                    onclick="document.location.href='/book-requests/my-requests'"
+                    sec:authorize="hasRole('RENTER')">
+                My Requests
+            </button>
+        </div>
+        
         <!-- Checked out books-->
         <main>
-            <section>
-                <h2>Checked Out books:</h2>
-                <div th:if="${#lists.isEmpty(checkouts)}" class="no-books">
-                    <p>No books checked out.</p>
-                </div>
-                <div class="book-list" th:if="${!#lists.isEmpty(checkouts)}">
+            <div sec:authorize="hasRole('RENTER')">
+                <section>
+                    <h2>Checked Out books:</h2>
+                    <div th:if="${#lists.isEmpty(checkouts)}" class="no-books">
+                        <p>No books checked out.</p>
+                    </div>
+                    <div class="book-list" th:if="${!#lists.isEmpty(checkouts)}">
                         <div class="book-card" th:each="checkout : ${checkouts}">
                             <h3 th:text="${checkout.book.title}">Book Title</h3>
                             <p><strong>Author:</strong> <span th:text="${checkout.book.author}">Author Name</span></p>
@@ -74,25 +110,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- Popup for extension results -->
-            <div id="extendPopup" class="popup-overlay"
-                th:if="${extendSuccess != null or extendError != null}" style="display:flex;">
-                <div class="popup-box">
-                    <button class="popup-close" onclick="closePopup('extendPopup')">×</button>
-
-                    <h3 th:if="${extendSuccess != null}" class="success-title">Success</h3>
-                    <h3 th:if="${extendError != null}" class="error-title">Error</h3>
-
-                    <p th:if="${extendSuccess != null}" th:text="${extendSuccess}"></p>
-                    <p th:if="${extendError != null}" th:text="${extendError}"></p>
-
-                    <div class="popup-actions">
-                        <button class="popup-btn" onclick="window.location.href='/userdetails'">OK</button>
-                    </div>
-                </div>
-            </div>
-
         </main>
      </div>"
      

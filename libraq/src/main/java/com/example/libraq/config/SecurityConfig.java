@@ -35,6 +35,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests( registry -> {
                     
                     registry.requestMatchers( HttpMethod.POST,"/books/*/checkout").hasRole("RENTER");
+                    
+                    // Book request endpoints
+                    registry.requestMatchers("/book-requests/", "/book-requests/my-requests").authenticated();
+                    registry.requestMatchers("/book-requests/manage", "/book-requests/*/approve", "/book-requests/*/reject").hasRole("LIBRARIAN");
 
                     // No authentication required for these files
                     

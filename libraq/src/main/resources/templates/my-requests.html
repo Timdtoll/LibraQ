@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>My Book Requests | LibraQ</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1><a th:href="@{/home}" class="logo-link">LibraQ</a></h1>
+
+        <div class="header-right">
+            <div class="header-status">
+                <div sec:authorize="isAuthenticated()">
+                    <span>Signed in as </span>
+                    <strong><span sec:authentication="name">User</span></strong>
+                </div>
+            </div>
+
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                Profile
+            </button>
+
+            <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <button type="submit" class="login-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <main>
+            <h2>My Book Requests</h2>
+
+            <!-- Success Message -->
+            <div th:if="${success != null}" class="success-message" style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+                <p th:text="${success}"></p>
+            </div>
+
+            <!-- Action Button -->
+            <div style="margin: 20px 0;">
+                <button class="login-btn" type="button" 
+                        onclick="document.location.href='/book-requests/'">
+                    Request Another Book
+                </button>
+            </div>
+
+            <!-- Requests List -->
+            <section>
+                <div th:if="${#lists.isEmpty(requests)}" class="no-books">
+                    <p>You haven't submitted any book requests yet.</p>
+                    <p><a th:href="@{/book-requests/}">Submit your first request</a></p>
+                </div>
+
+                <div class="book-list" th:if="${!#lists.isEmpty(requests)}">
+                    <div class="book-card" th:each="request : ${requests}">
+                        <h3 th:text="${request.title}">Book Title</h3>
+                        <p><strong>Author:</strong> <span th:text="${request.author}">Author Name</span></p>
+                        <p><strong>Requested:</strong> <span th:text="${request.requestDate}">Request Date</span></p>
+                        
+                        <!-- Status Badge -->
+                        <p>
+                            <strong>Status:</strong> 
+                            <span th:if="${request.status.name() == 'PENDING'}" 
+                                  style="color: #856404; background-color: #fff3cd; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                                Pending
+                            </span>
+                            <span th:if="${request.status.name() == 'APPROVED'}" 
+                                  style="color: #155724; background-color: #d4edda; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                                ✓ Approved
+                            </span>
+                            <span th:if="${request.status.name() == 'REJECTED'}" 
+                                  style="color: #721c24; background-color: #f8d7da; padding: 4px 8px; border-radius: 4px; display: inline-block;">
+                                ✗ Rejected
+                            </span>
+                        </p>
+                        
+                        <!-- Notes if present -->
+                        <p th:if="${request.notes != null and !request.notes.isEmpty()}">
+                            <strong>Notes:</strong> <span th:text="${request.notes}"></span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 LibraQ Library System</p>
+    </footer>
+</body>
+</html>
+

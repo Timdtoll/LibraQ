@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Request a Book | LibraQ</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1><a th:href="@{/home}" class="logo-link">LibraQ</a></h1>
+
+        <div class="header-right">
+            <div class="header-status">
+                <div sec:authorize="isAuthenticated()">
+                    <span>Signed in as </span>
+                    <strong><span sec:authentication="name">User</span></strong>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <span>You are not signed in.</span>
+                </div>
+            </div>
+
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/userdetails'"
+                    sec:authorize="isAuthenticated()">
+                Profile
+            </button>
+
+            <button class="login-btn" type="button"
+                    onclick="document.location.href='/login'"
+                    sec:authorize="isAnonymous()">
+                Login
+            </button>
+
+            <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <button type="submit" class="login-btn">Logout</button>
+            </form>
+        </div>
+    </header>
+
+    <div class="registration-container">
+        <section class="registration-card">
+            <h2>Request a Book</h2>
+            <p class="form-description">Can't find the book you're looking for? Request it to be added to our library!</p>
+
+            <!-- Success Message -->
+            <div th:if="${success != null}" class="success-message" style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+                <p th:text="${success}"></p>
+            </div>
+
+            <!-- Error Message -->
+            <div th:if="${error != null}" class="error-message" style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+                <p th:text="${error}"></p>
+            </div>
+
+            <form th:action="@{/book-requests}" th:object="${dto}" method="post" class="registration-form">
+
+                <div class="form-group">
+                    <label for="title">Book Title <span style="color: red;">*</span></label>
+                    <input id="title" th:field="*{title}" type="text" placeholder="Enter the book title" required>
+                    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Author <span style="color: red;">*</span></label>
+                    <input id="author" th:field="*{author}" type="text" placeholder="Enter the author's name" required>
+                    <div th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="error-message"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Additional Notes (Optional)</label>
+                    <textarea id="notes" th:field="*{notes}" rows="4" placeholder="Any additional information about the book (e.g., edition, ISBN, why you'd like this book)"></textarea>
+                    <div th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}" class="error-message"></div>
+                </div>
+
+                <button type="submit" class="register-btn">Submit Request</button>
+
+                <p class="login-link">
+                    <a th:href="@{/userdetails}">Back to Profile</a> | 
+                    <a th:href="@{/home}">Back to Home</a>
+                </p>
+
+            </form>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 LibraQ Library System</p>
+    </footer>
+</body>
+</html>
+
