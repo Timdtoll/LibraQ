@@ -89,4 +89,3 @@ Some of the features require a user to log in. You can either register as a new 
 
 EECS 3311 - Software Design, York University
 Fall 2025
-¯⁠\_(⁠ツ⁠)⁠_⁠/⁠¯
